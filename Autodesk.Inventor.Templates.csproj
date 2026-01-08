@@ -11,25 +11,23 @@
     <NoDefaultExcludes>true</NoDefaultExcludes>
 
     <!-- NuGet Package Metadata -->
-    <PackageId>Autodesk.Inventor.AddIn.Templates</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageId>Autodesk.Inventor.Templates</PackageId>
+    <PackageVersion>0.0.1</PackageVersion>
     <Title>Autodesk Inventor Add-In Templates</Title>
-    <Authors>Curtis Waguespack</Authors>
-    <Description>Project templates for creating Autodesk Inventor Add-Ins with VB.NET</Description>
+    <Authors>Tyler Warner</Authors>
+    <Description>Project templates for creating Autodesk Inventor add-ins.</Description>
     <PackageTags>dotnet-new;templates;autodesk;inventor;add-in;vb;vbnet</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/your-repo-here</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/your-repo-here</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/tylerwarner33/autodesk-inventor-templates</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tylerwarner33/autodesk-inventor-templates</RepositoryUrl>
 
 	  <!-- Disable all default item includes - treat Templates folder as raw content -->
 	  <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Include all template content -->
     <Content Include="Templates\**\*" Exclude="Templates\**\bin\**;Templates\**\obj\**" />
   </ItemGroup>
-
 
   <ItemGroup>
     <None Include=".gitignore" />

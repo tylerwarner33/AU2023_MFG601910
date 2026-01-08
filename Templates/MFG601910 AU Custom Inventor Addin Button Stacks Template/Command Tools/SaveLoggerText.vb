@@ -30,11 +30,18 @@ Module SaveLoggerText
         If useProgressToolTip = True Then
             toolTipImage = PictureDispConverter.ToIPictureDisp(My.Resources.AU_ToolTip)
 
-            toolTip_Expanded = Chr(149) & " This tool writes the iLogic Logger text to a *.txt file" & vbLf &
-                                        Chr(149) & " Line2" & vbLf &
-                                        Chr(149) & " Line3" & vbLf &
-                                        Chr(149) & " Line4"
-        End If
+#If #NETFRAMEWORK Then
+         toolTip_Expanded = Chr(149) & " This tool writes the iLogic Logger text to a *.txt file" & vbLf &
+                                     Chr(149) & " Line2" & vbLf &
+                                     Chr(149) & " Line3" & vbLf &
+                                     Chr(149) & " Line4"
+#Else
+         toolTip_Expanded = ChrW(149) & " This tool writes the iLogic Logger text to a *.txt file" & vbLf &
+                                     ChrW(149) & " Line2" & vbLf &
+                                     ChrW(149) & " Line3" & vbLf &
+                                     ChrW(149) & " Line4"
+#End If
+      End If
 
 #End Region
 

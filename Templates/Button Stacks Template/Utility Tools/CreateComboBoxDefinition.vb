@@ -8,7 +8,7 @@ Module CreateComboBoxDefintion
                             dropDownWidth As Long,
                             toolTip_Simple As String) As ComboBoxDefinition
 
-        Dim ButtonNameNoSpaces = buttonLabel.Replace(vbNewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
+        Dim ButtonNameNoSpaces = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
         Dim internalName As String = ButtonNameNoSpaces & "_" & g_addInClientID & "_Button_InternalName"
         Dim description As String = ButtonNameNoSpaces & "_Button"
         Dim controlDefs As Inventor.ControlDefinitions = g_inventorApplication.CommandManager.ControlDefinitions

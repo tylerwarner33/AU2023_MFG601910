@@ -1,37 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- Required for template packages -->
+    <!-- Template Package Configuration -->
     <PackageType>Template</PackageType>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
+    <EnableDefaultItems>false</EnableDefaultItems>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <NoDefaultExcludes>true</NoDefaultExcludes>
 
-    <!-- NuGet Package Metadata -->
+    <!-- Package Metadata -->
     <PackageId>Autodesk.Inventor.Templates</PackageId>
-    <PackageVersion>0.0.1</PackageVersion>
-    <Title>Autodesk Inventor Add-In Templates</Title>
-    <Authors>Tyler Warner</Authors>
+    <Authors>Tyler Warner and Curtis Waguespack</Authors>
     <Description>Project templates for creating Autodesk Inventor add-ins.</Description>
     <PackageTags>dotnet-new;templates;autodesk;inventor;add-in;vb;vbnet</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tylerwarner33/autodesk-inventor-templates</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tylerwarner33/autodesk-inventor-templates</RepositoryUrl>
-
-	  <!-- Disable all default item includes - treat Templates folder as raw content -->
-	  <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Templates\**\*" Exclude="Templates\**\bin\**;Templates\**\obj\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Materials\Handout.pdf" />
-    <None Include="Materials\Presentation.pdf" />
-  </ItemGroup>
-
+  
 </Project>

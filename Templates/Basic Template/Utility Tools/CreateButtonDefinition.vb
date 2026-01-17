@@ -15,14 +15,14 @@ Module CreateButtonDefintion
                                     largeIcon As stdole.IPictureDisp,
                                     toolTipImage As stdole.IPictureDisp) As ButtonDefinition
 
-        Dim ButtonNameNoSpaces = buttonLabel.Replace(vbNewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
+        Dim ButtonNameNoSpaces = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
         Dim internalName As String = ButtonNameNoSpaces & "_" & g_addInClientID & "_Button_InternalName"
         Dim Description As String = ButtonNameNoSpaces & " Button"
         Dim controlDefs As Inventor.ControlDefinitions = g_inventorApplication.CommandManager.ControlDefinitions
 
 
         'if using large icon wrap the button name to 2 rows
-        If useLargeIcon = False Then buttonLabel = buttonLabel.Replace(vbNewLine, " ").Replace(vbLf, " ").Replace(vbCr, " ")
+        If useLargeIcon = False Then buttonLabel = buttonLabel.Replace(System.Environment.NewLine, " ").Replace(vbLf, " ").Replace(vbCr, " ")
 
         Dim toolButtonDef As ButtonDefinition
         toolButtonDef = CheckForExisting.GetButtonDef(internalName)
@@ -65,7 +65,7 @@ Module CreateButtonDefintion
         Dim toolButtonDef As ButtonDefinition = Nothing
         Dim controlDefs As Inventor.ControlDefinitions = g_inventorApplication.CommandManager.ControlDefinitions
         Dim AddinName = Reflection.Assembly.GetExecutingAssembly.GetName.Name.ToString
-        Dim internalName As String = buttonLabel.Replace(vbNewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_") & "_" & AddinName & "_Button_InternalName"
+        Dim internalName As String = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_") & "_" & AddinName & "_Button_InternalName"
 
         Try
             toolButtonDef = controlDefs.AddButtonDefinition(buttonLabel, internalName,

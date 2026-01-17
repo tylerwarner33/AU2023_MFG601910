@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json.schemastore.org/template",
-	"author": "Curtis Waguespack",
+	"author": "Tyler Warner and Curtis Waguespack",
 	"classifications": [
 		"Library",
 		"Autodesk",
@@ -8,7 +8,7 @@
 		"Add-In",
 		"VB"
 	],
-	"identity": "Autodesk.Inventor.AddIn.Stacked",
+	"identity": "Autodesk.Inventor.Stacked",
 	"name": "Inventor Add-In Stacked Template",
 	"shortName": "inventoraddin-stacked",
 	"description": "A custom template for creating Autodesk Inventor Add-Ins, with stacked buttons",
@@ -19,60 +19,68 @@
 	},
 	"sourceName": "InventorAddIn",
 	"preferNameDirectory": true,
-	"symbols": {
-		"InventorVersion": {
-			"type": "parameter",
-			"datatype": "choice",
-			"description": "Target Inventor version",
-			"defaultValue": "2026",
-			"choices": [
-				{
-					"choice": "2023",
-					"description": "Inventor 2023 (.NET Framework 4.8)"
-				},
-				{
-					"choice": "2024",
-					"description": "Inventor 2024 (.NET Framework 4.8)"
-				},
-				{
-					"choice": "2025",
-					"description": "Inventor 2025 (.NET 8.0)"
-				},
-				{
-					"choice": "2026",
-					"description": "Inventor 2026 (.NET 8.0)"
-				}
-			],
-			"replaces": "INVENTOR_VERSION_PLACEHOLDER"
-		},
-		"TargetFramework": {
-			"type": "generated",
-			"generator": "switch",
-			"replaces": "TARGET_FRAMEWORK_PLACEHOLDER",
-			"parameters": {
-				"evaluator": "C++",
-				"datatype": "string",
-				"cases": [
-					{
-						"condition": "(InventorVersion == '2023')",
-						"value": "net48"
-					},
-					{
-						"condition": "(InventorVersion == '2024')",
-						"value": "net48"
-					},
-					{
-						"condition": "(InventorVersion == '2025')",
-						"value": "net8.0-windows"
-					},
-					{
-						"condition": "(InventorVersion == '2026')",
-						"value": "net8.0-windows"
-					}
-				]
-			}
-		}
-	},
+    "symbols": {
+        "InventorVersion": {
+            "type": "parameter",
+            "datatype": "choice",
+            "description": "Target Inventor version",
+            "defaultValue": "2026",
+            "choices": [
+                {
+                    "choice": "2023",
+                    "description": "Inventor 2023 (.NET Framework 4.8)"
+                },
+                {
+                    "choice": "2024",
+                    "description": "Inventor 2024 (.NET Framework 4.8)"
+                },
+                {
+                    "choice": "2025",
+                    "description": "Inventor 2025 (.NET 8.0)"
+                },
+                {
+                    "choice": "2026",
+                    "description": "Inventor 2026 (.NET 8.0)"
+                }
+            ],
+            "replaces": "INVENTOR_VERSION_PLACEHOLDER"
+        },
+        "TargetFramework": {
+            "type": "generated",
+            "generator": "switch",
+            "replaces": "TARGET_FRAMEWORK_PLACEHOLDER",
+            "parameters": {
+                "evaluator": "C++",
+                "datatype": "string",
+                "cases": [
+                    {
+                        "condition": "(InventorVersion == '2023')",
+                        "value": "net48"
+                    },
+                    {
+                        "condition": "(InventorVersion == '2024')",
+                        "value": "net48"
+                    },
+                    {
+                        "condition": "(InventorVersion == '2025')",
+                        "value": "net8.0-windows"
+                    },
+                    {
+                        "condition": "(InventorVersion == '2026')",
+                        "value": "net8.0-windows"
+                    }
+                ]
+            }
+        },
+        "ClientId": {
+            "type": "generated",
+            "generator": "guid",
+            "replaces": "CLIENT_GUID_PLACEHOLDER",
+            "parameters": {
+                "format": "D"
+            }
+        }
+    },
 	"forms": {
 		"safe_name": {
 			"identifier": "safe_namespace",

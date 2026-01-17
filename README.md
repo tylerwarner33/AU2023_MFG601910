@@ -51,13 +51,22 @@ dotnet new inventoraddin -n MyInventorAddIn -o ./src/MyInventorAddIn
 
 ### Build
 
-```bash
-dotnet pack -o ./nupkg
-
-dotnet new install ./nupkg/Autodesk.Inventor.Templates.*.nupkg
-
-dotnet new uninstall Autodesk.Inventor.Templates
-```
+1. Generate the package locally
+    ```bash
+    dotnet pack -o ./nupkg -p:PackageVersion=1.0.0
+    ```
+2. Install the locally generated package.
+    ```bash
+    dotnet new install ./nupkg/Autodesk.Inventor.Templates.1.0.0.nupkg
+    ```
+    - View installed packages.
+      ```bash
+      dotnet new uninstall
+      ```
+3. Uninstall the locally generated & installed package.
+    ```bash
+    dotnet new uninstall Autodesk.Inventor.Templates
+    ```
 
 ### Release
 
@@ -76,7 +85,6 @@ Ex. version 1.0.0
 
 ```bash
 git tag 1.0.0
-
 git push --tags
 ```
 

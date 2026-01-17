@@ -12,7 +12,7 @@ Module PictureConverter
     Public NotInheritable Class PictureDispConverter
         <DllImport("OleAut32.dll", EntryPoint:="OleCreatePictureIndirect", ExactSpelling:=True, PreserveSig:=False)>
         Private Shared Function OleCreatePictureIndirect(
-             <MarshalAs(UnmanagedType.AsAny)> ByVal picdesc As Object,
+             <MarshalAs(UnmanagedType.IUnknown)> ByVal picdesc As Object,
              ByRef iid As Guid,
              <MarshalAs(UnmanagedType.Bool)> ByVal fOwn As Boolean) As stdole.IPictureDisp
         End Function

@@ -12,14 +12,14 @@ Public Module Globals
     Public g_inventorApplication As Inventor.Application
 
     'Unique ID for this add-in.  
-    Public Const g_simpleAddInClientID As String = "{{guid}}"
+    Public Const g_simpleAddInClientID As String = "CLIENT_GUID_PLACEHOLDER"
     Public Const g_addInClientID As String = "{" & g_simpleAddInClientID & "}"
 
 
 End Module
 
-Namespace {{ProjectName}}
-    <ProgIdAttribute("{{ProjectName}}.StandardAddInServer"),
+Namespace InventorAddIn
+    <ProgIdAttribute("InventorAddIn.StandardAddInServer"),
     GuidAttribute(g_simpleAddInClientID)>
     Public Class StandardAddInServer
         Implements Inventor.ApplicationAddInServer

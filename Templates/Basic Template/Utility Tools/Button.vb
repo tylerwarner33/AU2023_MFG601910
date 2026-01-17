@@ -1,7 +1,6 @@
 Imports Inventor
 Imports System.Drawing
 Imports System.Windows.Forms
-Imports Microsoft.VisualBasic.Compatibility.VB6
 
 Friend MustInherit Class Button
 

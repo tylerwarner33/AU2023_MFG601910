@@ -11,9 +11,7 @@
     <OutputType>Library</OutputType>
     <StartAction>Program</StartAction>
     <!-- For Debugging Inventor Extension: Primary Method -->
-    <StartProgram>
-      (ProgramFiles)\Autodesk\Inventor $(InventorVersion)\Bin\Inventor.exe
-    </StartProgram>
+    <StartProgram>$(ProgramFiles)\Autodesk\Inventor $(InventorVersion)\Bin\Inventor.exe</StartProgram>
 
     <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
     <Description>$(MSBuildProjectName)</Description>

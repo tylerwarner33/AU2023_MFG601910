@@ -23,6 +23,10 @@
 
   <ItemGroup>
     <Content Include="Templates\**\*" Exclude="Templates\**\bin\**;Templates\**\obj\**" />
+    <Content Include="Templates\External Rules\**\*"
+             PackagePath="content\Templates\Basic Template\External Rules" />
+    <Content Include="Templates\External Rules\**\*"
+             PackagePath="content\Templates\Button Stacks Template\External Rules" />
   </ItemGroup>
   
 </Project>

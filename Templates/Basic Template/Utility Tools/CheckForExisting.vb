@@ -16,10 +16,10 @@ Module CheckForExisting
         End If
 
         Return ButtonDef
+
     End Function
 
     Function GetRibbonPanel(Custom_RibbonTab As RibbonTab, panelName As String) As RibbonPanel
-
 
         Dim panel_ID As String = "id_" & Replace(panelName, " ", "_")
 
@@ -35,8 +35,8 @@ Module CheckForExisting
         End If
 
         Return ribbon_Panel
-    End Function
 
+    End Function
 
     Function GetRibbonTab(TabName As String, EnvironmentName As String) As RibbonTab
 
@@ -54,6 +54,7 @@ Module CheckForExisting
         End If
 
         Return Ribbon_Tab
+
     End Function
 
 End Module

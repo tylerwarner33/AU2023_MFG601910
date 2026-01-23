@@ -1,11 +1,12 @@
 ﻿Module WindowWrapper
 
-    ' This class is used to wrap a Win32 hWnd as a .Net IWind32Window class.
-    ' This is primarily used for parenting a dialog to the Inventor window.
-    '
-    ' For example:
-    ' myForm.Show(New WindowWrapper(g_inventorApplication.MainFrameHWND))
-    '
+    ''' <summary>
+    ''' This class is used to wrap a Win32 hWnd as a .Net IWind32Window class.
+    ''' This is primarily used for parenting a dialog to the Inventor window.
+    ''' <code><example>
+    '''     myForm.Show(New WindowWrapper(_inventorApplication.MainFrameHWND))
+    ''' </example></code>
+    ''' </summary>
     Public Class WindowWrapper
         Implements System.Windows.Forms.IWin32Window
         Public Sub New(ByVal handle As IntPtr)

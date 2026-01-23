@@ -1,10 +1,6 @@
-﻿
-Imports Inventor
-'Imports Autodesk.iLogic.Interfaces
-'Imports Autodesk.iLogic.Automation
+﻿Imports Inventor
 
 Module Run_External_iLogic_Rule
-
 
     Public Sub RunExternalRule(ByVal ExternalRuleName As String)
 
@@ -13,13 +9,13 @@ Module Run_External_iLogic_Rule
             ' The application object.
             Dim addIns As ApplicationAddIns = g_inventorApplication.ApplicationAddIns()
 
-            ' Unique ID code for iLogic Addin
+            ' Unique ID code for iLogic Addin.
             Dim iLogicAddIn As ApplicationAddIn = addIns.ItemById("{3BDD8D79-2179-4B11-8A5A-257B1C0263AC}")
 
-            ' Starts the process
+            ' Starts the process.
             iLogicAddIn.Activate()
 
-            ' Executes the rule
+            ' Executes the rule.
             iLogicAddIn.Automation.RunExternalRule(g_inventorApplication.ActiveDocument, ExternalRuleName)
 
         Catch ex As Exception

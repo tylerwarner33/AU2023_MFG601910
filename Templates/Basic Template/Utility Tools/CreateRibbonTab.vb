@@ -1,13 +1,12 @@
 ﻿Imports Inventor
+
 Module CreateRibbonTab
 
     Function GetRibbon_Tab(tabName As String, myRibbon As Ribbon, Tab_NextTo As String) As RibbonTab
 
-        '' Get the correct ribbon
         Dim Ribbons As Ribbons = g_inventorApplication.UserInterfaceManager.Ribbons
 
-        Dim Ribbon_Tab As RibbonTab
-        Ribbon_Tab = CheckForExisting.GetRibbonTab(tabName, myRibbon.InternalName)
+        Dim Ribbon_Tab As RibbonTab = CheckForExisting.GetRibbonTab(tabName, myRibbon.InternalName)
 
         Dim internalName As String = "id_" & Replace(tabName, " ", "_")
 
@@ -17,7 +16,7 @@ Module CreateRibbonTab
         End If
 
         Return Ribbon_Tab
-    End Function
 
+    End Function
 
 End Module

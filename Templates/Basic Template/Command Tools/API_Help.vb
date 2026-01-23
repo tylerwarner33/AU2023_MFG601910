@@ -1,7 +1,7 @@
-﻿Imports System.Collections.Generic
+﻿Imports Inventor
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Windows.Forms
-Imports Inventor
 
 ''' <summary>
 ''' <para>
@@ -24,50 +24,63 @@ Module API_Help
     ''' Define the label, icons, tool tip, etc. for this button
     ''' </para>
     ''' </summary>
-    Function CreateButton(environment As String, CustomDrawingTab As RibbonTab, ribbonPanel As RibbonPanel,
-                                 useLargeIcon As Boolean, isInButtonStack As Boolean) As ButtonDefinition
+    Function CreateButton(
+        environment As String,
+        CustomDrawingTab As RibbonTab,
+        ribbonPanel As RibbonPanel,
+        useLargeIcon As Boolean,
+        isInButtonStack As Boolean)
+        As ButtonDefinition
 
-        'get the images to use for the button
+        ' Get the images to use for the button.
         Dim largeIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Cat_32)
         Dim standardIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Cat_16)
         Dim toolTipImage As IPictureDisp = Nothing
 
-        'this is the text the user sees on the button
+        ' This is the text the user sees on the button.
         Dim buttonLabel As String = "API " & vbLf & "Help"
 
-        'text that displays when the user hovers over the button
+        ' Text that displays when the user hovers over the button.
         Dim toolTip_Simple As String = "Opens the API Help"
         Dim toolTip_Expanded As String = Nothing
 
-        'set to true to use a progressive tool tip, and false to a simple tool tip
+        ' Set to true to use a progressive tool tip, and false to a simple tool tip.
         Dim useProgressToolTip As Boolean = False
 
 #Region "Progressive ToolTip"
 
-        'only used if useProgressToolTip = true
+        ' Only used if 'useProgressToolTip = true'.
         If useProgressToolTip = True Then
             toolTipImage = PictureDispConverter.ToIPictureDisp(My.Resources.API_ToolTip)
 
             toolTip_Expanded = ChrW(&H2022) & " This tool opens the API help *.chm file in a seperate window" & vbLf &
-                                           "    Use the API help to find:" & vbLf &
-                                           ChrW(&H2022) & "       API Object Model Reference Information" & vbLf &
-                                           ChrW(&H2022) & "       Example Code"
+                "    Use the API help to find:" & vbLf &
+                ChrW(&H2022) & "       API Object Model Reference Information" & vbLf &
+                ChrW(&H2022) & "       Example Code"
         End If
 
 #End Region
 
         Dim buttonDef As ButtonDefinition
-        buttonDef = CreateButtonDefintion.CreateButtonDef(environment, CustomDrawingTab, ribbonPanel, useLargeIcon,
-                                                                                  isInButtonStack, useProgressToolTip,
-                                                                                  buttonLabel, toolTip_Simple, toolTip_Expanded,
-                                                                                  standardIcon, largeIcon, toolTipImage)
+        buttonDef = CreateButtonDefintion.CreateButtonDef(
+            environment,
+            CustomDrawingTab,
+            ribbonPanel,
+            useLargeIcon,
+            isInButtonStack,
+            useProgressToolTip,
+            buttonLabel,
+            toolTip_Simple,
+            toolTip_Expanded,
+            standardIcon,
+            largeIcon,
+            toolTipImage)
 
         Return buttonDef
 
     End Function
 
-
-    'This is the code that does the real work when your command is executed.
+    ' This is the code that does the real work when your command is executed.
     Sub RunCommandCode()
 
         Dim Version = g_inventorApplication.SoftwareVersion.DisplayVersion
@@ -82,7 +95,7 @@ Module API_Help
 #If #NETFRAMEWORK Then
             Process.Start(Filename)
 #Else
-         Process.Start(New ProcessStartInfo(Filename) With {.UseShellExecute = True})
+            Process.Start(New ProcessStartInfo(Filename) With {.UseShellExecute = True})
 #End If
         Else
             MsgBox("File Does Not Exist" & vbLf & Filename)

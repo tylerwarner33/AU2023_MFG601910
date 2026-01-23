@@ -1,20 +1,17 @@
+Imports Inventor
+Imports Microsoft.Win32
 Imports System.Collections.Generic
 Imports System.Runtime.InteropServices
-Imports Inventor
 
-Imports Microsoft.Win32
-
-
-'Define global variables
+' Define global variables.
 Public Module Globals
 
     ' Inventor application object.
     Public g_inventorApplication As Inventor.Application
 
-    'Unique ID for this add-in.  
+    ' Unique ID for this add-in.  
     Public Const g_simpleAddInClientID As String = "CLIENT_GUID_PLACEHOLDER"
     Public Const g_addInClientID As String = "{" & g_simpleAddInClientID & "}"
-
 
 End Module
 
@@ -24,13 +21,13 @@ Namespace InventorAddIn
     Public Class StandardAddInServer
         Implements Inventor.ApplicationAddInServer
 
-        'Application events
+        ' Application events.
         Private WithEvents InventorApplicationEvents As ApplicationEvents
         Private WithEvents UiEvents As UserInterfaceEvents
         Private WithEvents UserInputEvents As UserInputEvents
         Private WithEvents InvTransactionEvents As TransactionEvents
 
-        'Define the command buttons
+        ' Define the command buttons.
         Private WithEvents API_Help_Button As ButtonDefinition
         Private WithEvents Detect_Dark_Light_Theme_Button As ButtonDefinition
 
@@ -135,9 +132,7 @@ Namespace InventorAddIn
 
 #End Region
 
-
         End Sub
-
 
 #Region "Button 'on click' Events"
         'add button click events to this region
@@ -305,7 +300,4 @@ Namespace InventorAddIn
 
     End Class
 
-
 End Namespace
-
-

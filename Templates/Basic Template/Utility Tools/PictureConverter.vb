@@ -3,7 +3,7 @@
 Module PictureConverter
 
     ''' <summary>
-    ''' Class used to convert bitmaps and icons from their .Net native types into an <see cref="stdole.IPictureDisp"/> object which is what the Inventor API requires.
+    ''' Class used to convert bitmaps and icons from their .NET native types into an <see cref="stdole.IPictureDisp"/> object which is what the Inventor API requires.
     ''' A typical usage is shown below where MyIcon is a bitmap or icon that's available as a resource of the project.
     ''' </summary>
     Public NotInheritable Class PictureDispConverter
@@ -55,7 +55,6 @@ Module PictureConverter
                 hicon = ico.Handle
             End Sub
         End Structure
-
 
         Public Shared Function ToIPictureDisp(bmp As System.Drawing.Bitmap) As stdole.IPictureDisp
             Dim desc As New PICTDESC_BITMAP(bmp)

@@ -29,8 +29,7 @@ Module API_Help
         CustomDrawingTab As RibbonTab,
         ribbonPanel As RibbonPanel,
         useLargeIcon As Boolean,
-        isInButtonStack As Boolean)
-        As ButtonDefinition
+        isInButtonStack As Boolean) As ButtonDefinition
 
         ' Get the images to use for the button.
         Dim largeIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Cat_32)

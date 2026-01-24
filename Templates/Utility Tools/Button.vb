@@ -4,11 +4,11 @@ Imports System.Windows.Forms
 
 Friend MustInherit Class Button
 
-    Private m_buttonDefinition As ButtonDefinition
+    Private _buttonDefinition As ButtonDefinition
 
     Public ReadOnly Property ButtonDefinition() As Inventor.ButtonDefinition
         Get
-            ButtonDefinition = m_buttonDefinition
+            ButtonDefinition = _buttonDefinition
         End Get
     End Property
 
@@ -20,21 +20,21 @@ Friend MustInherit Class Button
         isInButtonStack As Boolean)
 
         Try
-            'get the images to use for the button
+            ' Get the images to use for the button.
             Dim largeIcon As IPictureDisp = Nothing
             Dim standardIcon As IPictureDisp = Nothing
             Dim toolTipImage As IPictureDisp = Nothing
 
-            'this is the text the user sees on the button
+            ' This is the text the user sees on the button.
             Dim buttonLabel As String = Nothing
 
-            'text that displays when the user hovers over the button
+            ' Text that displays when the user hovers over the button.
             Dim toolTip_Simple As String = Nothing
             Dim toolTip_Expanded As String = Nothing
             Dim useProgressToolTip As Boolean = True
 
-            'create button definition
-            m_buttonDefinition = CreateButtonDefintion.CreateButtonDef(
+            ' Create button definition.
+            _buttonDefinition = CreateButtonDefintion.CreateButtonDef(
                 Environment,
                 CustomDrawingTab,
                 RibbonPanel,
@@ -48,11 +48,11 @@ Friend MustInherit Class Button
                 largeIcon,
                 toolTipImage)
 
-            'enable the button
-            m_buttonDefinition.Enabled = True
+            ' Enable the button.
+            _buttonDefinition.Enabled = True
 
-            'connect the button event sink
-            AddHandler m_buttonDefinition.OnExecute, AddressOf Me.ButtonDefinition_OnExecute
+            ' Connect the button event sink.
+            AddHandler _buttonDefinition.OnExecute, AddressOf Me.ButtonDefinition_OnExecute
 
         Catch ex As Exception
             MessageBox.Show(ex.ToString)

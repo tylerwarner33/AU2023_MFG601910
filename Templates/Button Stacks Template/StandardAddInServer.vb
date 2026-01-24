@@ -1,137 +1,135 @@
 Imports System.Collections.Generic
 Imports System.Runtime.InteropServices
 Imports Inventor
-
 Imports Microsoft.Win32
 
-
-'Define global variables
 Public Module Globals
 
-    ' Inventor application object.
-    Public g_inventorApplication As Inventor.Application
-
-    'Unique ID for this add-in.  
-    Public Const g_simpleAddInClientID As String = "CLIENT_GUID_PLACEHOLDER"
-    Public Const g_addInClientID As String = "{" & g_simpleAddInClientID & "}"
+    Public _inventorApplication As Inventor.Application
+    ''' <summary>
+    ''' Unique ID for this add-in.
+    ''' </summary>
+    Public Const _simpleAddInClientId As String = "CLIENT_GUID_PLACEHOLDER"
+    Public Const _addInClientId As String = "{" & _simpleAddInClientId & "}"
 
 
 End Module
 
 Namespace InventorAddIn
-    <ProgIdAttribute("InventorAddIn.StandardAddInServer"),
-    GuidAttribute(g_simpleAddInClientID)>
+
+    <ProgIdAttribute("InventorAddIn.StandardAddInServer"), GuidAttribute(_simpleAddInClientId)>
     Public Class StandardAddInServer
         Implements Inventor.ApplicationAddInServer
 
-        'Application events
-        Private WithEvents InventorApplicationEvents As ApplicationEvents
-        Private WithEvents UiEvents As UserInterfaceEvents
-        Private WithEvents UserInputEvents As UserInputEvents
-        Private WithEvents InvTransactionEvents As TransactionEvents
+        Private WithEvents _applicationEvents As ApplicationEvents
+        Private WithEvents _userInterfaceEvents As UserInterfaceEvents
+        Private WithEvents _userInputEvents As UserInputEvents
+        Private WithEvents _transactionEvents As TransactionEvents
 
-        'Define the command buttons
-        Private WithEvents CMD_List_Button As ButtonDefinition
-        Private WithEvents API_Help_Button As ButtonDefinition
+        ' Define the command buttons.
+        Private WithEvents _commandListButton As ButtonDefinition
+        Private WithEvents _apiHelpButton As ButtonDefinition
 
-        Private WithEvents UserName_Button As ButtonDefinition
-        Private WithEvents Install_Path_Button As ButtonDefinition
-        Private WithEvents Show_Date_Button As ButtonDefinition
+        Private WithEvents _userNameButton As ButtonDefinition
+        Private WithEvents _installPathButton As ButtonDefinition
+        Private WithEvents _showDateButton As ButtonDefinition
 
-        Private WithEvents Create_Sketched_Circle_Button As ButtonDefinition
-        Private WithEvents Create_Sketched_Square_Button As ButtonDefinition
-        Private WithEvents Create_Sketched_SqareCircle_Button As ButtonDefinition
+        Private WithEvents _createSketchedCircleButton As ButtonDefinition
+        Private WithEvents _createSketchedSquareButton As ButtonDefinition
+        Private WithEvents _createSketchedSqareCircleButton As ButtonDefinition
 
-        Private WithEvents Default_Sheet_Color_Button As ButtonDefinition
-        Private WithEvents White_Sheet_Color_Button As ButtonDefinition
-        Private WithEvents Blue_Sheet_Color_Button As ButtonDefinition
+        Private WithEvents _defaultSheetColorButton As ButtonDefinition
+        Private WithEvents _whiteSheetColorButton As ButtonDefinition
+        Private WithEvents _blueSheetColorButton As ButtonDefinition
 
-        Private WithEvents SaveLogger_Button As ButtonDefinition
-        Private WithEvents ApplicationBalloonNotice_Button As ButtonDefinition
-        Private WithEvents Detect_Dark_Light_Theme_Button As ButtonDefinition
+        Private WithEvents _saveLoggerButton As ButtonDefinition
+        Private WithEvents _applicationBalloonNoticeButton As ButtonDefinition
+        Private WithEvents _detectInventorThemeButton As ButtonDefinition
 
         Private Sub AddToUserInterface()
 
 #Region "Setup Information"
-            'create a object collection and Control Definition array to be used with button stacks
-            Dim buttonObjectCollection As ObjectCollection = g_inventorApplication.TransientObjects.CreateObjectCollection
-            Dim ctrlDef(0 To 99) As ControlDefinition
 
-            'create list of environments to cycle through
-            Dim EnvironmentList As New List(Of String)({"Drawing", "Assembly", "Part"})
+            ' Create a object collection and Control Definition array to be used with button stacks.
+            Dim buttonObjectCollection As ObjectCollection = _inventorApplication.TransientObjects.CreateObjectCollection
+            Dim controlDefinition(0 To 99) As ControlDefinition
 
-            'define custom ribbon tab prefix and suffix
-            'this will be combined with the EnvironmentList to create ribbon tabs like "ACME Drawing Tools", "ACME Part Tools", etc.
-            Dim RibbonTabName_Prefix As String = "Globex"
-            Dim RibbonTabName_Sufffix As String = "Tools"
+            ' Create list of environments to cycle through.
+            Dim environmentList As New List(Of String)({"Drawing", "Assembly", "Part"})
 
-            'create list of panels to create on the custom ribbon tab
-            Dim CustomPanelList As New List(Of String)({"General Tools", "External Rule Buttons"})
+            ' Define custom ribbon tab prefix and suffix.
+            ' This will be combined with the EnvironmentList to create ribbon tabs like "ACME Drawing Tools", "ACME Part Tools", etc.
+            Dim ribbonTabNamePrefix As String = "Globex"
+            Dim ribbonTabNameSufffix As String = "Tools"
+
+            ' Create list of panels to create on the custom ribbon tab.
+            Dim customPanelList As New List(Of String)({"General Tools", "External Rule Buttons"})
+
 #End Region
 
 #Region "Create Custom Tabs and Panels for each environment in the list"
-            'Create Custom Tabs and Panels for each environment in the list
-            'Example:
+
+            ' Create Custom Tabs and Panels for each environment in the list.
+            ' Example:
             ''      Environment = "Drawing"
             ''      Prefix = 'ACME'
             ''      Suffix = "Tools"
             ''      will create a custom tab called: ACME Drawing Tools
 
-            Dim AllRibbons As Ribbons = g_inventorApplication.UserInterfaceManager.Ribbons
-            Dim VisibleTabs_Collection As ObjectCollection = g_inventorApplication.TransientObjects.CreateObjectCollection
+            Dim allRibbons As Ribbons = _inventorApplication.UserInterfaceManager.Ribbons
+            Dim visibleTabsCollection As ObjectCollection = _inventorApplication.TransientObjects.CreateObjectCollection
 
-            Dim CustomDrawingTab As RibbonTab = Nothing
-            Dim CustomAssemblyTab As RibbonTab = Nothing
-            Dim CustomPartTab As RibbonTab = Nothing
+            Dim customDrawingTab As RibbonTab = Nothing
+            Dim customAssemblyTab As RibbonTab = Nothing
+            Dim customPartTab As RibbonTab = Nothing
 
-            Dim Drawing_GeneralToolsPanel As RibbonPanel = Nothing
-            Dim Drawing_ExternalRuleButtonsPanel As RibbonPanel = Nothing
-            Dim Assembly_GeneralToolsPanel As RibbonPanel = Nothing
-            Dim Assembly_ExternalRuleButtonsPanel As RibbonPanel = Nothing
-            Dim Part_GeneralToolsPanel As RibbonPanel = Nothing
-            Dim Part_ExternalRuleButtonsPanel As RibbonPanel = Nothing
+            Dim drawingGeneralToolsPanel As RibbonPanel = Nothing
+            Dim drawingExternalRuleButtonsPanel As RibbonPanel = Nothing
+            Dim assemblyGeneralToolsPanel As RibbonPanel = Nothing
+            Dim assemblyExternalRuleButtonsPanel As RibbonPanel = Nothing
+            Dim partGeneralToolsPanel As RibbonPanel = Nothing
+            Dim partExternalRuleButtonsPanel As RibbonPanel = Nothing
 
+            ' Iterate through the list.
+            For i = 0 To environmentList.Count - 1
 
-            'iterate through the list
-            For i = 0 To EnvironmentList.Count - 1
+                ' Get the ribbon for each environment ( example: Drawing, Assembly, Part).
+                Dim myRibbon As Ribbon = allRibbons.Item(environmentList.Item(i))
 
-                'get the ribbon for each environment ( example: Drawing, Assembly, Part) 
-                Dim MyRibbon As Ribbon = AllRibbons.Item(EnvironmentList.Item(i))
+                ' Make sure the collection is empty.
+                visibleTabsCollection.Clear()
 
-                'make sure the collection is empty
-                VisibleTabs_Collection.Clear()
-
-                'collect only the visible tabs in the ribbon
-                For Each Ribbon_Tab In MyRibbon.RibbonTabs
-                    If Ribbon_Tab.Visible = False Then Continue For
-                    VisibleTabs_Collection.Add(Ribbon_Tab)
+                ' Collect only the visible tabs in the ribbon.
+                For Each ribbonTab In myRibbon.RibbonTabs
+                    If ribbonTab.Visible = False Then Continue For
+                    visibleTabsCollection.Add(ribbonTab)
                 Next
 
-                'get count of tabs in collection
-                Dim iCount As Integer = VisibleTabs_Collection.Count
+                ' Get count of tabs in collection.
+                Dim iCount As Integer = visibleTabsCollection.Count
 
-                'get the last tab in the collection
-                Dim LastTab As String = VisibleTabs_Collection.Item(iCount).InternalName
+                ' Get the last tab in the collection.
+                Dim lastTab As String = visibleTabsCollection.Item(iCount).InternalName
 
-                'create new tab name
-                Dim NewTabName As String = RibbonTabName_Prefix & " " & MyRibbon.InternalName & " " & RibbonTabName_Sufffix
+                ' Create new tab name.
+                Dim newTabName As String = ribbonTabNamePrefix & " " & myRibbon.InternalName & " " & ribbonTabNameSufffix
 
-                'create new tab
-                Dim CustomTab As RibbonTab = CreateRibbonTab.GetRibbon_Tab(NewTabName, MyRibbon, LastTab)
+                ' Create new tab.
+                Dim customTab As RibbonTab = CreateRibbonTab.GetRibbon_Tab(newTabName, myRibbon, lastTab)
 
-                'create the tab and panels for each environment
+                ' reate the tab and panels for each environment.
                 If i = 0 Then
-                    CustomDrawingTab = CustomTab
-                    Drawing_GeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(CustomPanelList.Item(0), CustomTab)
-                    Drawing_ExternalRuleButtonsPanel = CreateRibbonPanel.GetRibbonPanel(CustomPanelList.Item(1), CustomTab)
+                    customDrawingTab = customTab
+                    drawingGeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(0), customTab)
+                    drawingExternalRuleButtonsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(1), customTab)
                 ElseIf i = 1 Then
-                    CustomAssemblyTab = CustomTab
-                    Assembly_GeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(CustomPanelList.Item(0), CustomTab)
-                    Assembly_ExternalRuleButtonsPanel = CreateRibbonPanel.GetRibbonPanel(CustomPanelList.Item(1), CustomTab)
+                    customAssemblyTab = customTab
+                    assemblyGeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(0), customTab)
+                    assemblyExternalRuleButtonsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(1), customTab)
                 ElseIf i = 2 Then
-                    CustomPartTab = CustomTab
-                    Part_GeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(CustomPanelList.Item(0), CustomTab)
-                    Part_ExternalRuleButtonsPanel = CreateRibbonPanel.GetRibbonPanel(CustomPanelList.Item(1), CustomTab)
+                    customPartTab = customTab
+                    partGeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(0), customTab)
+                    partExternalRuleButtonsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(1), customTab)
                 End If
 
             Next
@@ -140,219 +138,231 @@ Namespace InventorAddIn
 #Region "Create Single Buttons"
 
             'add this button to General Tools tab of 3 different environments 
-            API_Help_Button = API_Help.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, False)
-            API_Help_Button = API_Help.CreateButton("Assembly", CustomAssemblyTab, Assembly_GeneralToolsPanel, True, False)
-            API_Help_Button = API_Help.CreateButton("Part", CustomPartTab, Part_GeneralToolsPanel, True, False)
+            _apiHelpButton = ApiHelp.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, False)
+            _apiHelpButton = ApiHelp.CreateButton("Assembly", customAssemblyTab, assemblyGeneralToolsPanel, True, False)
+            _apiHelpButton = ApiHelp.CreateButton("Part", customPartTab, partGeneralToolsPanel, True, False)
 
             'add button to just one tab
-            Detect_Dark_Light_Theme_Button = Detect_Dark_Light_Theme.CreateButton("Drawing", CustomDrawingTab, Drawing_ExternalRuleButtonsPanel, True, False)
+            _detectInventorThemeButton = DetectInventorTheme.CreateButton("Drawing", customDrawingTab, drawingExternalRuleButtonsPanel, True, False)
 
-            SaveLogger_Button = SaveLoggerText.CreateButton("Drawing", CustomDrawingTab, Drawing_ExternalRuleButtonsPanel, True, False)
-            ApplicationBalloonNotice_Button = ApplicationBalloonNotice.CreateButton("Drawing", CustomDrawingTab, Drawing_ExternalRuleButtonsPanel, True, False)
+            _saveLoggerButton = SaveLoggerText.CreateButton("Drawing", customDrawingTab, drawingExternalRuleButtonsPanel, True, False)
+            _applicationBalloonNoticeButton = ApplicationBalloonNotice.CreateButton("Drawing", customDrawingTab, drawingExternalRuleButtonsPanel, True, False)
 
 #End Region
 
 #Region "Create a Pop Up Button Stack"
-            'Build a "cover" Button Definition 
-            'this button has no events, therefore is not click-able, 
-            'it is not tied to any command or automation,
-            'it just serves as the "cover" button for this stack of buttons
-            Dim ButtonCover1 As ButtonDefinition = CreateButtonDefintion.CreateButtonDef("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel,
-                                                                    True, True, False,
-                                                                    "Tool Stack 1", "Select a button", "Select a button from the list",
-                                                                    PictureDispConverter.ToIPictureDisp(My.Resources.Zero_16),
-                                                                    PictureDispConverter.ToIPictureDisp(My.Resources.Zero_32), Nothing)
+            ' Build a "cover" Button Definition.
+            ' This button has no events, therefore is not click-able,.
+            ' It is not tied to any command or automation.
+            ' It just serves as the "cover" button for this stack of buttons.
+            Dim buttonCover As ButtonDefinition = CreateButtonDefintion.CreateButtonDef(
+                "Drawing",
+                customDrawingTab,
+                drawingGeneralToolsPanel,
+                True,
+                True,
+                False,
+                "Tool Stack 1", "Select a button", "Select a button from the list",
+                PictureDispConverter.ToIPictureDisp(My.Resources.Zero_16),
+                PictureDispConverter.ToIPictureDisp(My.Resources.Zero_32),
+                Nothing)
 
-            'buttons to be used in button stack
-            Create_Sketched_Circle_Button = Create_Sketched_Circle.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
-            Create_Sketched_Square_Button = Create_Sketched_Square.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
-            Create_Sketched_SqareCircle_Button = Create_Sketched_SqareCircle.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
+            ' Buttons to be used in button stack.
+            _createSketchedCircleButton = CreateSketchedCircle.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
+            _createSketchedSquareButton = CreateSketchedSquare.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
+            _createSketchedSqareCircleButton = CreateSketchedSquareCircle.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
 
+            ' Get button control definitions.
+            controlDefinition(0) = _inventorApplication.CommandManager.ControlDefinitions(_createSketchedCircleButton.InternalName)
+            controlDefinition(1) = _inventorApplication.CommandManager.ControlDefinitions(_createSketchedSquareButton.InternalName)
+            controlDefinition(2) = _inventorApplication.CommandManager.ControlDefinitions(_createSketchedSqareCircleButton.InternalName)
 
-            'get button control definitions
-            ctrlDef(0) = g_inventorApplication.CommandManager.ControlDefinitions(Create_Sketched_Circle_Button.InternalName)
-            ctrlDef(1) = g_inventorApplication.CommandManager.ControlDefinitions(Create_Sketched_Square_Button.InternalName)
-            ctrlDef(2) = g_inventorApplication.CommandManager.ControlDefinitions(Create_Sketched_SqareCircle_Button.InternalName)
-
-            'add definitions to collection
+            ' Add definitions to collection.
             buttonObjectCollection.Clear()
             For i = 0 To 2
-                buttonObjectCollection.Add(ctrlDef(i))
+                buttonObjectCollection.Add(controlDefinition(i))
             Next
 
-            CreateStackedButtonDefinition.Create_PopUp_ButtonDef("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel,
-                                                                        buttonObjectCollection, ButtonCover1, True)
+            CreateStackedButtonDefinition.Create_PopUp_ButtonDef(
+                "Drawing",
+                customDrawingTab,
+                drawingGeneralToolsPanel,
+                buttonObjectCollection,
+                buttonCover,
+                True)
+
 #End Region
 
 #Region "Create a Button Pop Up Button Stack"
 
+            ' Buttons to be used in button stack.
+            _defaultSheetColorButton = SheetColorDefault.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
+            _whiteSheetColorButton = SheetColorWhite.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
+            _blueSheetColorButton = SheetColorBlue.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
 
-            'buttons to be used in button stack
-            Default_Sheet_Color_Button = Sheet_Color_Default.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
-            White_Sheet_Color_Button = Sheet_Color_White.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
-            Blue_Sheet_Color_Button = Sheet_Color_Blue.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
+            ' Get button control definitions.
+            controlDefinition(0) = _inventorApplication.CommandManager.ControlDefinitions(_defaultSheetColorButton.InternalName)
+            controlDefinition(1) = _inventorApplication.CommandManager.ControlDefinitions(_whiteSheetColorButton.InternalName)
+            controlDefinition(2) = _inventorApplication.CommandManager.ControlDefinitions(_blueSheetColorButton.InternalName)
 
-            'get button control definitions
-            ctrlDef(0) = g_inventorApplication.CommandManager.ControlDefinitions(Default_Sheet_Color_Button.InternalName)
-            ctrlDef(1) = g_inventorApplication.CommandManager.ControlDefinitions(White_Sheet_Color_Button.InternalName)
-            ctrlDef(2) = g_inventorApplication.CommandManager.ControlDefinitions(Blue_Sheet_Color_Button.InternalName)
-
-            'add definitions to collection
+            ' Add definitions to collection.
             buttonObjectCollection.Clear()
             For i = 0 To 2
-                buttonObjectCollection.Add(ctrlDef(i))
+                buttonObjectCollection.Add(controlDefinition(i))
             Next
 
-            CreateStackedButtonDefinition.Create_Button_PopUp_ButtonDef("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel,
-                                                                        buttonObjectCollection, True)
+            CreateStackedButtonDefinition.Create_Button_PopUp_ButtonDef(
+                "Drawing",
+                customDrawingTab,
+                drawingGeneralToolsPanel,
+                buttonObjectCollection,
+                True)
+
 #End Region
 
 #Region "Create a Most Recently Used Button Stack"
 
-            'buttons to be used in button stack
-            Show_Date_Button = Show_Date.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
-            UserName_Button = UserName.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
-            Install_Path_Button = Install_Path.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, True)
+            ' Buttons to be used in button stack.
+            _showDateButton = ShowDate.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
+            _userNameButton = UserName.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
+            _installPathButton = InstallPath.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, True)
 
-            'get button control definitions
-            ctrlDef(0) = g_inventorApplication.CommandManager.ControlDefinitions(Show_Date_Button.InternalName)
-            ctrlDef(1) = g_inventorApplication.CommandManager.ControlDefinitions(UserName_Button.InternalName)
-            ctrlDef(2) = g_inventorApplication.CommandManager.ControlDefinitions(Install_Path_Button.InternalName)
+            ' Get button control definitions.
+            controlDefinition(0) = _inventorApplication.CommandManager.ControlDefinitions(_showDateButton.InternalName)
+            controlDefinition(1) = _inventorApplication.CommandManager.ControlDefinitions(_userNameButton.InternalName)
+            controlDefinition(2) = _inventorApplication.CommandManager.ControlDefinitions(_installPathButton.InternalName)
 
-            'add definitions to collection
+            ' Add definitions to collection.
             buttonObjectCollection.Clear()
             For i = 0 To 2
-                buttonObjectCollection.Add(ctrlDef(i))
+                buttonObjectCollection.Add(controlDefinition(i))
             Next
 
-            CreateStackedButtonDefinition.CreateSplit_MostRecentlyUsed_ButtonDef("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel,
-                                                                                    buttonObjectCollection, True)
+            CreateStackedButtonDefinition.CreateSplit_MostRecentlyUsed_ButtonDef(
+                "Drawing",
+                customDrawingTab,
+                drawingGeneralToolsPanel,
+                buttonObjectCollection,
+                True)
+
 #End Region
 
-
         End Sub
-
 
 #Region "Button 'on click' Events"
-        'add button click events to this region
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub API_Help_Button_OnExecute(Context As NameValueMap) Handles API_Help_Button.OnExecute
-            API_Help.RunCommandCode()
+        ' Add button click events to this region.
+        ' These are the click events for the buttons that run command code from a sub routine in the comand module.
+
+        Private Sub ApiHelpButton_OnExecute(Context As NameValueMap) Handles _apiHelpButton.OnExecute
+            ApiHelp.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub CMD_List_Button_OnExecute(Context As NameValueMap) Handles CMD_List_Button.OnExecute
-            CMDList.RunCommandCode()
+        Private Sub CommandListButton_OnExecute(Context As NameValueMap) Handles _commandListButton.OnExecute
+            CommandList.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Create_Sketched_Circle_Button_OnExecute(Context As NameValueMap) Handles Create_Sketched_Circle_Button.OnExecute
-            Create_Sketched_Circle.RunCommandCode()
+        Private Sub CreateSketchedCircleButton_OnExecute(Context As NameValueMap) Handles _createSketchedCircleButton.OnExecute
+            CreateSketchedCircle.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Create_Sketched_Square_Button_OnExecute(Context As NameValueMap) Handles Create_Sketched_Square_Button.OnExecute
-            Create_Sketched_Square.RunCommandCode()
+        Private Sub CreateSketchedSquareButton_OnExecute(Context As NameValueMap) Handles _createSketchedSquareButton.OnExecute
+            CreateSketchedSquare.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Create_Sketched_SqareCircle_Button_OnExecute(Context As NameValueMap) Handles Create_Sketched_SqareCircle_Button.OnExecute
-            Create_Sketched_SqareCircle.RunCommandCode()
+        Private Sub CreateSketchedSquareCircleButton_OnExecute(Context As NameValueMap) Handles _createSketchedSqareCircleButton.OnExecute
+            CreateSketchedSquareCircle.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Default_Sheet_Color_OnExecute(Context As NameValueMap) Handles Default_Sheet_Color_Button.OnExecute
-            Sheet_Color_Default.RunCommandCode()
+        Private Sub DefaultSheetColor_OnExecute(Context As NameValueMap) Handles _defaultSheetColorButton.OnExecute
+            SheetColorDefault.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub White_Sheet_Color_OnExecute(Context As NameValueMap) Handles White_Sheet_Color_Button.OnExecute
-            Sheet_Color_White.RunCommandCode()
+        Private Sub WhiteSheetColor_OnExecute(Context As NameValueMap) Handles _whiteSheetColorButton.OnExecute
+            SheetColorWhite.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Blue_Sheet_Color_OnExecute(Context As NameValueMap) Handles Blue_Sheet_Color_Button.OnExecute
-            Sheet_Color_Blue.RunCommandCode()
+        Private Sub BlueSheetColor_OnExecute(Context As NameValueMap) Handles _blueSheetColorButton.OnExecute
+            SheetColorBlue.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Show_Date_Button_Button_OnExecute(Context As NameValueMap) Handles Show_Date_Button.OnExecute
-            Show_Date.RunCommandCode()
+        Private Sub ShowDateButtonButton_OnExecute(Context As NameValueMap) Handles _showDateButton.OnExecute
+            ShowDate.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub UserName_Button_OnExecute(Context As NameValueMap) Handles UserName_Button.OnExecute
+        Private Sub UserNameButton_OnExecute(Context As NameValueMap) Handles _userNameButton.OnExecute
             UserName.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that runs command code from a sub routine in the comand module 
-        Private Sub Install_Path_Button_OnExecute(Context As NameValueMap) Handles Install_Path_Button.OnExecute
-            Install_Path.RunCommandCode()
+        Private Sub InstallPathButton_OnExecute(Context As NameValueMap) Handles _installPathButton.OnExecute
+            InstallPath.RunCommandCode()
         End Sub
 
-        'this is the click event for a button that conencts to an external rule, from a sub routine in the comand module 
-        Private Sub SaveLogger_Button_OnExecute(Context As NameValueMap) Handles SaveLogger_Button.OnExecute
-            SaveLoggerText.Run_ExternalRule()
+        Private Sub SaveLoggerButton_OnExecute(Context As NameValueMap) Handles _saveLoggerButton.OnExecute
+            SaveLoggerText.RunExternalRule()
         End Sub
 
-        'this is the click event for a button that conencts to an external rule, from a sub routine in the comand module 
-        Private Sub ApplicationBalloonNotice_Button_OnExecute(Context As NameValueMap) Handles ApplicationBalloonNotice_Button.OnExecute
-            ApplicationBalloonNotice.Run_ExternalRule()
+        Private Sub ApplicationBalloonNoticeButton_OnExecute(Context As NameValueMap) Handles _applicationBalloonNoticeButton.OnExecute
+            ApplicationBalloonNotice.RunExternalRule()
         End Sub
 
-        'this is the click event for a button that conencts to an external rule, from a sub routine in the comand module 
-        Private Sub Detect_Dark_Light_Theme_Button_OnExecute(Context As NameValueMap) Handles Detect_Dark_Light_Theme_Button.OnExecute
-            Detect_Dark_Light_Theme.Run_ExternalRule()
+        Private Sub DetectInventorThemeButton_OnExecute(Context As NameValueMap) Handles _detectInventorThemeButton.OnExecute
+            DetectInventorTheme.RunExternalRule()
         End Sub
-
 
 #End Region
 
 #Region "Applicaton Events"
 
-        Private Sub Events_OnNewDocument(ByVal DocumentObject As Inventor._Document,
-                                         ByVal BeforeOrAfter As Inventor.EventTimingEnum,
-                                         ByVal Context As Inventor.NameValueMap,
-                                         ByRef HandlingCode As Inventor.HandlingCodeEnum)
+        Private Sub Events_OnNewDocument(
+            ByVal documentObject As Inventor._Document,
+            ByVal beforeOrAfter As Inventor.EventTimingEnum,
+            ByVal context As Inventor.NameValueMap,
+            ByRef handlingCode As Inventor.HandlingCodeEnum)
 
-            If DocumentObject Is Nothing Then Exit Sub
+            If documentObject Is Nothing Then Exit Sub
 
-            If DocumentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
-                If BeforeOrAfter = EventTimingEnum.kAfter Then
-                    'run a command that has no button
-                    'uncomment the following line to see the Welcome command module run on this event
-                    Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
-
+            If documentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
+                If beforeOrAfter = EventTimingEnum.kAfter Then
+                    ' Run a command that has no button.
+                    ' Uncomment the following line to see the Welcome command module run on this event.
+                    Welcome.Addin_Hello(documentObject.FullFileName, EventTimingEnum.kAfter.ToString)
                 End If
             End If
 
-
         End Sub
-        Private Sub Events_OnOpenDocument(DocumentObject As _Document, FullDocumentName As String,
-                                BeforeOrAfter As EventTimingEnum, Context As NameValueMap, ByRef HandlingCode As HandlingCodeEnum)
 
-            If DocumentObject Is Nothing Then Exit Sub
-            If Not DocumentObject Is g_inventorApplication.ActiveDocument Then Exit Sub 'only trigger on the active file
-            If Not DocumentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then Exit Sub
+        Private Sub Events_OnOpenDocument(
+            documentObject As _Document,
+            fullDocumentName As String,
+            beforeOrAfter As EventTimingEnum,
+            context As NameValueMap,
+            ByRef handlingCode As HandlingCodeEnum)
 
-            'run this after a document is open
-            If BeforeOrAfter = EventTimingEnum.kAfter Then
-                'run a command that has no button
-                'uncomment the following line to see the Welcome command module run on this event
+            If documentObject Is Nothing Then Exit Sub
+            If Not documentObject Is _inventorApplication.ActiveDocument Then Exit Sub ' Only trigger on the active file.
+            If Not documentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then Exit Sub
+
+            ' Run this after a document is open.
+            If beforeOrAfter = EventTimingEnum.kAfter Then
+                ' Run a command that has no button.
+                ' Uncomment the following line to see the Welcome command module run on this event.
                 'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
 
             End If
 
         End Sub
-        Private Sub Events_OnSaveDocument(DocumentObject As _Document,
-                                BeforeOrAfter As EventTimingEnum, Context As NameValueMap, ByRef HandlingCode As HandlingCodeEnum)
 
+        Private Sub Events_OnSaveDocument(
+            documentObject As _Document,
+            beforeOrAfter As EventTimingEnum,
+            context As NameValueMap,
+            ByRef handlingCode As HandlingCodeEnum)
 
-            If DocumentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
-                If BeforeOrAfter = EventTimingEnum.kBefore Then
-                    'run a command that has no button
-                    'uncomment the following line to see the Welcome command module run on this event
+            If documentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
+                If beforeOrAfter = EventTimingEnum.kBefore Then
+                    ' Run a command that has no button.
+                    ' Uncomment the following line to see the Welcome command module run on this event.
                     'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
                 End If
             End If
@@ -363,26 +373,31 @@ Namespace InventorAddIn
 
 #Region "ApplicationAddInServer Members"
 
-        ' This method is called by Inventor when it loads the AddIn. The AddInSiteObject provides access  
-        ' to the Inventor Application object. The FirstTime flag indicates if the AddIn is loaded for
-        ' the first time. However, with the introduction of the ribbon this argument is always true.
+        ''' <summary>
+        ''' This method is called by Inventor when it loads the AddIn.
+        ''' The AddInSiteObject provides access to the Inventor Application object.
+        ''' The FirstTime flag indicates if the AddIn is loaded for the first time.
+        ''' However, with the introduction of the ribbon this argument is always true.
+        ''' </summary>
+        ''' <param name="addInSiteObject"></param>
+        ''' <param name="firstTime"></param>
         Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite, ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
 
-            Dim AddinName = Reflection.Assembly.GetExecutingAssembly.GetName.Name.ToString
+            Dim addinName = Reflection.Assembly.GetExecutingAssembly.GetName.Name.ToString
 
             ' Initialize AddIn members.
-            g_inventorApplication = addInSiteObject.Application
+            _inventorApplication = addInSiteObject.Application
 
-            ' Connect to events 
-            UiEvents = g_inventorApplication.UserInterfaceManager.UserInterfaceEvents
-            UserInputEvents = g_inventorApplication.CommandManager.UserInputEvents
-            InvTransactionEvents = g_inventorApplication.TransactionManager.TransactionEvents
-            InventorApplicationEvents = g_inventorApplication.ApplicationEvents
+            ' Connect to events.
+            _userInterfaceEvents = _inventorApplication.UserInterfaceManager.UserInterfaceEvents
+            _userInputEvents = _inventorApplication.CommandManager.UserInputEvents
+            _transactionEvents = _inventorApplication.TransactionManager.TransactionEvents
+            _applicationEvents = _inventorApplication.ApplicationEvents
 
-            'add event handlers
-            AddHandler InventorApplicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
-            AddHandler InventorApplicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
-            AddHandler InventorApplicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
+            ' Add event handlers.
+            AddHandler _applicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
+            AddHandler _applicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
+            AddHandler _applicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
             'AddHandler UserInputEvents.OnLinearMarkingMenu, AddressOf Me.Events_OnLinearMarkingMenu
             'AddHandler UserInputEvents.OnRadialMarkingMenu, AddressOf Me.Events_OnRadialMarkingMenu
             'AddHandler InventorApplicationEvents.OnDocumentChange, AddressOf Me.Events_PartListCreateEvent
@@ -392,54 +407,54 @@ Namespace InventorAddIn
             'AddHandler InvTransactionEvents.OnRedo, AddressOf Me.Events_OnRedo
             'AddHandler InvTransactionEvents.OnDelete, AddressOf Me.Events_OnDelete
 
-
 #Region "Activate user interface"
-            ' Add to the user interface, if it's the first time.
-            ' If this add-in doesn't have a UI but runs in the background listening
-            ' to events, you can delete this.
 
-            Dim Message As String = Nothing
+            ' Add to the user interface, if it's the first time.
+            ' If this add-in doesn't have a UI but runs in the background listening to events, you can delete this.
+
+            Dim message As String = Nothing
             If firstTime Then
                 Try
                     AddToUserInterface()
 
-                    Message = "Adding " & AddinName & " To User Interface."
-                    g_inventorApplication.StatusBarText = Message
-                    System.Diagnostics.Debug.WriteLine("*******  " & Message)
+                    message = "Adding " & addinName & " To User Interface."
+                    _inventorApplication.StatusBarText = message
+                    System.Diagnostics.Debug.WriteLine("*******  " & message)
                     '  MsgBox(Message)
                 Catch ex As Exception
-                    MsgBox("Error" & Message & vbCrLf & vbCrLf & ex.Message)
-                    System.Diagnostics.Debug.WriteLine("*******  " & "Error" & Message)
+                    MsgBox("Error" & message & vbCrLf & vbCrLf & ex.Message)
+                    System.Diagnostics.Debug.WriteLine("*******  " & "Error" & message)
                 End Try
 
             Else
                 'MsgBox(AddinName & " not the first time activated.")
-                g_inventorApplication.StatusBarText = AddinName & " not the first time activated."
+                _inventorApplication.StatusBarText = addinName & " not the first time activated."
             End If
+
 #End Region
 
         End Sub
 
-        ' This method is called by Inventor when the AddIn is unloaded. The AddIn will be
-        ' unloaded either manually by the user or when the Inventor session is terminated.
+        ' This method is called by Inventor when the AddIn is unloaded.
+        ' The AddIn will be unloaded either manually by the user or when the Inventor session is terminated.
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
 
-            g_inventorApplication = Nothing
-            UiEvents = Nothing
-            UserInputEvents = Nothing
-            InvTransactionEvents = Nothing
+            _inventorApplication = Nothing
+            _userInterfaceEvents = Nothing
+            _userInputEvents = Nothing
+            _transactionEvents = Nothing
 
-            RemoveHandler InventorApplicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
-            RemoveHandler InventorApplicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
-            RemoveHandler InventorApplicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
+            RemoveHandler _applicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
+            RemoveHandler _applicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
+            RemoveHandler _applicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
 
             System.GC.Collect()
             System.GC.WaitForPendingFinalizers()
+
         End Sub
 
-        ' This property is provided to allow the AddIn to expose an API of its own to other 
-        ' programs. Typically, this  would be done by implementing the AddIn's API
-        ' interface in a class and returning that class object through this property.
+        ' This property is provided to allow the AddIn to expose an API of its own to other programs.
+        ' Typically, this  would be done by implementing the AddIn's API interface in a class and returning that class object through this property.
         ' Typically it's not used, like in this case, and returns Nothing.
         Public ReadOnly Property Automation() As Object Implements Inventor.ApplicationAddInServer.Automation
             Get
@@ -447,13 +462,12 @@ Namespace InventorAddIn
             End Get
         End Property
 
-        ' Note:this method is now obsolete, you should use the 
-        ' ControlDefinition functionality for implementing commands.
+        ' Note: This method is now obsolete, you should use the ControlDefinition functionality for implementing commands.
         Public Sub ExecuteCommand(ByVal commandID As Integer) Implements Inventor.ApplicationAddInServer.ExecuteCommand
             ' Not used.
         End Sub
 
-        Private Sub m_uiEvents_OnResetRibbonInterface(Context As NameValueMap) Handles UiEvents.OnResetRibbonInterface
+        Private Sub m_uiEvents_OnResetRibbonInterface(Context As NameValueMap) Handles _userInterfaceEvents.OnResetRibbonInterface
             ' The ribbon was reset, so add back the add-ins user-interface.
             AddToUserInterface()
         End Sub
@@ -461,6 +475,5 @@ Namespace InventorAddIn
 #End Region
 
     End Class
-
 
 End Namespace

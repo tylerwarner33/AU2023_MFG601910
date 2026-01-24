@@ -1,8 +1,7 @@
-﻿Imports Inventor
-Imports System.Collections.Generic
+﻿Imports System.Collections.Generic
 Imports System.IO
 Imports System.Windows.Forms
-
+Imports Inventor
 ''' <summary>
 ''' <para>
 ''' Creates a Button Definition
@@ -14,10 +13,14 @@ Imports System.Windows.Forms
 ''' The sub within this module runs a utility to call an external rule when this button is clicked
 ''' </para>
 ''' </summary>
-Module Detect_Dark_Light_Theme
+Module DetectInventorTheme
 
-    Function CreateButton(environment As String, customDrawingTab As RibbonTab, ribbonPanel As RibbonPanel,
-                                 useLargeIcon As Boolean, isInButtonStack As Boolean) As ButtonDefinition
+    Function CreateButton(
+        environment As String,
+        customDrawingTab As RibbonTab,
+        ribbonPanel As RibbonPanel,
+        useLargeIcon As Boolean,
+        isInButtonStack As Boolean) As ButtonDefinition
 
         ' Get the images to use for the button.
         Dim largeIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Dog_32)
@@ -28,8 +31,8 @@ Module Detect_Dark_Light_Theme
         Dim buttonLabel As String = "Detect" & vbLf & "Theme"
 
         ' Text that displays when the user hovers over the button.
-        Dim toolTip_Simple As String = "Runs an external ilogic rule to detect theme color"
-        Dim toolTip_Expanded As String = Nothing
+        Dim toolTipSimple As String = "Runs an external ilogic rule to detect theme color"
+        Dim toolTipExpanded As String = Nothing
 
 #Region "Progressive ToolTip"
 
@@ -37,19 +40,18 @@ Module Detect_Dark_Light_Theme
         Dim useProgressToolTip As Boolean = False
 
         ' Only used if 'useProgressToolTip = true'.
-        If useProgressToolTip = True Then
-            toolTipImage = PictureDispConverter.ToIPictureDisp(My.Resources.Dog_32)
+        'If useProgressToolTip = True Then
+        '    toolTipImage = PictureDispConverter.ToIPictureDisp(My.Resources.YourToolTipImageNameHere)
 
-            toolTip_Expanded = ChrW(&H2022) & " This tool pops up the application balloon with a message" & vbLf &
-                ChrW(&H2022) & " Line2" & vbLf &
-                ChrW(&H2022) & " Line3" & vbLf &
-                ChrW(&H2022) & " Line4"
-        End If
+        '    toolTip_Expanded = ChrW(&H2022) & " This tool pops up the application balloon with a message" & vbLf &
+        '        ChrW(&H2022) & " Line2" & vbLf &
+        '        ChrW(&H2022) & " Line3" & vbLf &
+        '        ChrW(&H2022) & " Line4"
+        'End If
 
 #End Region
 
-        Dim buttonDef As ButtonDefinition
-        buttonDef = CreateButtonDefintion.CreateButtonDef(
+        Dim buttonDefinition As ButtonDefinition = CreateButtonDefintion.CreateButtonDef(
             environment,
             customDrawingTab,
             ribbonPanel,
@@ -57,19 +59,19 @@ Module Detect_Dark_Light_Theme
             isInButtonStack,
             useProgressToolTip,
             buttonLabel,
-            toolTip_Simple,
-            toolTip_Expanded,
+            toolTipSimple,
+            toolTipExpanded,
             standardIcon,
             largeIcon,
             toolTipImage)
 
-        Return buttonDef
+        Return buttonDefinition
 
     End Function
 
     ' This is the code that does the real work when your command is executed.
-    Sub Run_ExternalRule()
-        Run_External_iLogic_Rule.RunExternalRule("Detect Dark or Light Theme")
+    Sub RunExternalRule()
+        RunExternaliLogicRule.RunExternalRule("DetectInventorTheme")
     End Sub
 
 End Module

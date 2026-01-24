@@ -1,29 +1,13 @@
 ﻿Imports Inventor
-Imports System.Collections.Generic
-Imports System.IO
-Imports System.Windows.Forms
 
 ''' <summary>
-''' <para>
-''' Creates a Button Definition
-''' </para>
-''' <para>
+''' Creates a Button Definition.
 ''' The function within this module defines the label, icons, tool tip, etc. for this button
-''' </para>
-''' <para>
 ''' The sub within this module defines the code to run when this button is clicked
-''' </para>
 ''' </summary> 
-Module API_Help
+Module ApiHelp
 
-    ''' <summary>
-    ''' <para>
-    ''' Creates a button Button Definition
-    ''' </para>
-    ''' <para>
-    ''' Define the label, icons, tool tip, etc. for this button
-    ''' </para>
-    ''' </summary>
+    'This function is where the button is defined
     Function CreateButton(
         environment As String,
         CustomDrawingTab As RibbonTab,
@@ -40,28 +24,27 @@ Module API_Help
         Dim buttonLabel As String = "API " & vbLf & "Help"
 
         ' Text that displays when the user hovers over the button.
-        Dim toolTip_Simple As String = "Opens the API Help"
-        Dim toolTip_Expanded As String = Nothing
-
-        ' Set to true to use a progressive tool tip, and false to a simple tool tip.
-        Dim useProgressToolTip As Boolean = False
+        Dim toolTipSimple As String = "Opens the API Help"
+        Dim toolTipExpanded As String = Nothing
 
 #Region "Progressive ToolTip"
+
+        ' Set to true to use a progressive tool tip, and false to a simple tool tip.
+        Dim useProgressToolTip As Boolean = True
 
         ' Only used if 'useProgressToolTip = true'.
         If useProgressToolTip = True Then
             toolTipImage = PictureDispConverter.ToIPictureDisp(My.Resources.API_ToolTip)
 
-            toolTip_Expanded = ChrW(&H2022) & " This tool opens the API help *.chm file in a seperate window" & vbLf &
-                "    Use the API help to find:" & vbLf &
-                ChrW(&H2022) & "       API Object Model Reference Information" & vbLf &
-                ChrW(&H2022) & "       Example Code"
+            toolTipExpanded = ChrW(&H2022) & " This tool opens the API help *.chm file in a seperate window" & vbLf &
+                ChrW(&H2022) & " Line2" & vbLf &
+                ChrW(&H2022) & " Line3" & vbLf &
+                ChrW(&H2022) & " Line4"
         End If
 
 #End Region
 
-        Dim buttonDef As ButtonDefinition
-        buttonDef = CreateButtonDefintion.CreateButtonDef(
+        Dim buttonDefinition As ButtonDefinition = CreateButtonDefintion.CreateButtonDef(
             environment,
             CustomDrawingTab,
             ribbonPanel,
@@ -69,23 +52,23 @@ Module API_Help
             isInButtonStack,
             useProgressToolTip,
             buttonLabel,
-            toolTip_Simple,
-            toolTip_Expanded,
+            toolTipSimple,
+            toolTipExpanded,
             standardIcon,
             largeIcon,
             toolTipImage)
 
-        Return buttonDef
+        Return buttonDefinition
 
     End Function
 
-    ' This is the code that does the real work when your command is executed.
+    'This is the code that does the real work when your command is executed.
     Sub RunCommandCode()
 
-        Dim Version = g_inventorApplication.SoftwareVersion.DisplayVersion
+        Dim Version = _inventorApplication.SoftwareVersion.DisplayVersion
         Dim Array = Split(Version, ".")
         Version = Array(0)
-        Dim Build = g_inventorApplication.SoftwareVersion.Major
+        Dim Build = _inventorApplication.SoftwareVersion.Major
 
         Dim Filename = "C:\Users\Public\Documents\Autodesk\Inventor " &
         Version & "\Local Help\ADMAPI_" & Build & "_0.chm"

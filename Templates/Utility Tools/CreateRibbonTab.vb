@@ -2,20 +2,20 @@
 
 Module CreateRibbonTab
 
-    Function GetRibbon_Tab(tabName As String, myRibbon As Ribbon, Tab_NextTo As String) As RibbonTab
+    Function GetRibbon_Tab(tabName As String, myRibbon As Ribbon, tabNextTo As String) As RibbonTab
 
-        Dim Ribbons As Ribbons = g_inventorApplication.UserInterfaceManager.Ribbons
+        Dim ribbons As Ribbons = _inventorApplication.UserInterfaceManager.Ribbons
 
-        Dim Ribbon_Tab As RibbonTab = CheckForExisting.GetRibbonTab(tabName, myRibbon.InternalName)
+        Dim ribbonTab As RibbonTab = CheckForExisting.GetRibbonTab(tabName, myRibbon.InternalName)
 
         Dim internalName As String = "id_" & Replace(tabName, " ", "_")
 
-        If Ribbon_Tab Is Nothing Then
-            Ribbon_Tab = myRibbon.RibbonTabs.Add(tabName, internalName, g_addInClientID, Tab_NextTo, False)
+        If ribbonTab Is Nothing Then
+            ribbonTab = myRibbon.RibbonTabs.Add(tabName, internalName, g_addInClientID, tabNextTo, False)
             System.Diagnostics.Debug.WriteLine("*******  " & tabName & " tab created")
         End If
 
-        Return Ribbon_Tab
+        Return ribbonTab
 
     End Function
 

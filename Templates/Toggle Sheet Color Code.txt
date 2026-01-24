@@ -1,6 +1,6 @@
-        Dim Doc As DrawingDocument = g_inventorApplication.ActiveDocument
+        Dim Doc As DrawingDocument = _inventorApplication.ActiveDocument
 
-        Dim TObj As TransientObjects = g_inventorApplication.TransientObjects
+        Dim TObj As TransientObjects = _inventorApplication.TransientObjects
 
         'get the color of the sheet
         Dim Color As Color

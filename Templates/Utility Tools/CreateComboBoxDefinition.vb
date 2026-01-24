@@ -14,7 +14,7 @@ Module CreateComboBoxDefintion
         Dim buttonNameNoSpaces = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
         Dim internalName As String = buttonNameNoSpaces & "_" & g_addInClientID & "_Button_InternalName"
         Dim description As String = buttonNameNoSpaces & "_Button"
-        Dim controlDefs As Inventor.ControlDefinitions = g_inventorApplication.CommandManager.ControlDefinitions
+        Dim controlDefs As Inventor.ControlDefinitions = _inventorApplication.CommandManager.ControlDefinitions
 
         Dim toolButtonDef As ButtonDefinition = CheckForExisting.GetButtonDef(internalName)
 
@@ -23,7 +23,7 @@ Module CreateComboBoxDefintion
             Exit Function
         End If
 
-        Dim ribbon_Panel = CreateRibbonPanel.GetRibbonPanel(ribbonPanelName, ribbonTab)
+        Dim ribbonPanel = CreateRibbonPanel.GetRibbonPanel(ribbonPanelName, ribbonTab)
 
         toolButtonDef = controlDefs.AddComboBoxDefinition(
             buttonLabel,
@@ -37,9 +37,9 @@ Module CreateComboBoxDefintion
 
         If isInButtonStack = False Then
             If isInSlideOut = False Then
-                ribbon_Panel.CommandControls.AddComboBox(toolButtonDef)
+                ribbonPanel.CommandControls.AddComboBox(toolButtonDef)
             Else
-                ribbon_Panel.SlideoutControls.AddComboBox(toolButtonDef)
+                ribbonPanel.SlideoutControls.AddComboBox(toolButtonDef)
             End If
         End If
 

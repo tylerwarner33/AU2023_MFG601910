@@ -1,12 +1,12 @@
-﻿Imports System.IO
+﻿Imports Inventor
+Imports System.IO
 Imports System.Reflection
-Imports Inventor
 
 ''' <summary>
 ''' Utility module for running external iLogic rules from the add-in.
 ''' Includes automatic registration of the add-in's External Rules folder with iLogic.
 ''' </summary>
-Module Run_External_iLogic_Rule
+Module RunExternaliLogicRule
 
     Private _externalRulesPathRegistered As Boolean = False
     Private ReadOnly _iLogicAddInGuid As String = "{3BDD8D79-2179-4B11-8A5A-257B1C0263AC}"
@@ -17,9 +17,8 @@ Module Run_External_iLogic_Rule
     Public Sub RunExternalRule(ByVal ExternalRuleName As String)
 
         Try
-
             ' The application object.
-            Dim addIns As ApplicationAddIns = g_inventorApplication.ApplicationAddIns()
+            Dim addIns As ApplicationAddIns = _inventorApplication.ApplicationAddIns()
 
             ' Unique ID code for iLogic Addin.
             Dim iLogicAddIn As ApplicationAddIn = addIns.ItemById(_iLogicAddInGuid)
@@ -28,18 +27,15 @@ Module Run_External_iLogic_Rule
             iLogicAddIn.Activate()
 
             ' Executes the rule.
-            iLogicAddIn.Automation.RunExternalRule(g_inventorApplication.ActiveDocument, ExternalRuleName)
-
+            iLogicAddIn.Automation.RunExternalRule(_inventorApplication.ActiveDocument, ExternalRuleName)
         Catch ex As Exception
-
             MsgBox("Error launching external rule: " & vbLf & "     " & ExternalRuleName _
-                     & vbLf & vbLf & "Ensure the iLogic rule exists, and that the" _
-                     & vbLf & "configuration includes the path to the rules." _
-                     & vbLf & vbLf & "see Tools tab > Options flyout button > iLogic Configuration button" _
-                     & vbLf & "    If needed, add an external rules folder path," _
-                     & vbLf & "    and ensure that the rule is found in this folder.")
+                & vbLf & vbLf & "Ensure the iLogic rule exists, and that the" _
+                & vbLf & "configuration includes the path to the rules." _
+                & vbLf & vbLf & "see Tools tab > Options flyout button > iLogic Configuration button" _
+                & vbLf & "    If needed, add an external rules folder path," _
+                & vbLf & "    and ensure that the rule is found in this folder.")
             Return
-
         End Try
 
     End Sub
@@ -67,7 +63,7 @@ Module Run_External_iLogic_Rule
             End If
 
             ' Get the iLogic add-in
-            Dim addIns As ApplicationAddIns = g_inventorApplication.ApplicationAddIns()
+            Dim addIns As ApplicationAddIns = _inventorApplication.ApplicationAddIns()
             Dim iLogicAddIn As ApplicationAddIn = Nothing
 
             Try

@@ -6,40 +6,39 @@ Imports System.Runtime.InteropServices
 ' Define global variables.
 Public Module Globals
 
-    ' Inventor application object.
-    Public g_inventorApplication As Inventor.Application
-
-    ' Unique ID for this add-in.  
-    Public Const g_simpleAddInClientID As String = "CLIENT_GUID_PLACEHOLDER"
-    Public Const g_addInClientID As String = "{" & g_simpleAddInClientID & "}"
+    Public _inventorApplication As Inventor.Application
+    ''' <summary>
+    ''' Unique ID for this add-in.
+    ''' </summary>
+    Public Const _simpleAddInClientID As String = "CLIENT_GUID_PLACEHOLDER"
+    Public Const _addInClientID As String = "{" & _simpleAddInClientID & "}"
 
 End Module
 
 Namespace InventorAddIn
     <ProgIdAttribute("InventorAddIn.StandardAddInServer"),
-    GuidAttribute(g_simpleAddInClientID)>
+    GuidAttribute(_simpleAddInClientID)>
     Public Class StandardAddInServer
         Implements Inventor.ApplicationAddInServer
 
-        ' Application events.
-        Private WithEvents InventorApplicationEvents As ApplicationEvents
-        Private WithEvents UiEvents As UserInterfaceEvents
-        Private WithEvents UserInputEvents As UserInputEvents
-        Private WithEvents InvTransactionEvents As TransactionEvents
+        Private WithEvents _applicationEvents As ApplicationEvents
+        Private WithEvents _userInterfaceEvents As UserInterfaceEvents
+        Private WithEvents _userInputEvents As UserInputEvents
+        Private WithEvents _transactionEvents As TransactionEvents
 
         ' Define the command buttons.
-        Private WithEvents API_Help_Button As ButtonDefinition
-        Private WithEvents Detect_Dark_Light_Theme_Button As ButtonDefinition
-
+        Private WithEvents _apiHelpButton As ButtonDefinition
+        Private WithEvents _detectInventorThemeButton As ButtonDefinition
 
         Private Sub AddToUserInterface()
 
 #Region "Setup Information"
-            'create a object collection and Control Definition array to be used with button stacks
-            Dim buttonObjectCollection As ObjectCollection = g_inventorApplication.TransientObjects.CreateObjectCollection
+
+            ' Create a object collection and Control Definition array to be used with button stacks.
+            Dim buttonObjectCollection As ObjectCollection = _inventorApplication.TransientObjects.CreateObjectCollection
             Dim ctrlDef(0 To 99) As ControlDefinition
 
-            'create list of environments to cycle through
+            ' Create list of environments to cycle through.
             Dim EnvironmentList As New List(Of String)({"Drawing", "Assembly", "Part"})
 
             'define custom roibbon tab prefix and suffix
@@ -60,8 +59,8 @@ Namespace InventorAddIn
             ''      Suffix = "Tools"
             ''      will create a custom tab called: ACME Drawing Tools
 
-            Dim AllRibbons As Ribbons = g_inventorApplication.UserInterfaceManager.Ribbons
-            Dim VisibleTabs_Collection As ObjectCollection = g_inventorApplication.TransientObjects.CreateObjectCollection
+            Dim AllRibbons As Ribbons = _inventorApplication.UserInterfaceManager.Ribbons
+            Dim VisibleTabs_Collection As ObjectCollection = _inventorApplication.TransientObjects.CreateObjectCollection
 
             Dim CustomDrawingTab As RibbonTab = Nothing
             Dim CustomAssemblyTab As RibbonTab = Nothing
@@ -123,12 +122,12 @@ Namespace InventorAddIn
 #Region "Create Single Buttons"
 
             'add this button to General Tools tab of 3 different environments 
-            API_Help_Button = API_Help.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, False)
-            API_Help_Button = API_Help.CreateButton("Assembly", CustomAssemblyTab, Assembly_GeneralToolsPanel, True, False)
-            API_Help_Button = API_Help.CreateButton("Part", CustomPartTab, Part_GeneralToolsPanel, True, False)
+            _apiHelpButton = ApiHelp.CreateButton("Drawing", CustomDrawingTab, Drawing_GeneralToolsPanel, True, False)
+            _apiHelpButton = ApiHelp.CreateButton("Assembly", CustomAssemblyTab, Assembly_GeneralToolsPanel, True, False)
+            _apiHelpButton = ApiHelp.CreateButton("Part", CustomPartTab, Part_GeneralToolsPanel, True, False)
 
             'add button to just one tab
-            Detect_Dark_Light_Theme_Button = Detect_Dark_Light_Theme.CreateButton("Drawing", CustomDrawingTab, Drawing_ExternalRuleButtonsPanel, True, False)
+            _detectInventorThemeButton = DetectInventorTheme.CreateButton("Drawing", CustomDrawingTab, Drawing_ExternalRuleButtonsPanel, True, False)
 
 #End Region
 
@@ -137,12 +136,12 @@ Namespace InventorAddIn
 #Region "Button 'on click' Events"
         'add button click events to this region
 
-        Private Sub API_Help_Button_OnExecute(Context As NameValueMap) Handles API_Help_Button.OnExecute
-            API_Help.RunCommandCode()
+        Private Sub ApiHelp_Button_OnExecute(Context As NameValueMap) Handles _apiHelpButton.OnExecute
+            ApiHelp.RunCommandCode()
         End Sub
 
-        Private Sub Detect_Dark_Light_Theme_Button_OnExecute(Context As NameValueMap) Handles Detect_Dark_Light_Theme_Button.OnExecute
-            Detect_Dark_Light_Theme.Run_ExternalRule()
+        Private Sub DetectInventorTheme_Button_OnExecute(Context As NameValueMap) Handles _detectInventorThemeButton.OnExecute
+            DetectInventorTheme.RunExternalRule()
         End Sub
 #End Region
 
@@ -170,7 +169,7 @@ Namespace InventorAddIn
                                     BeforeOrAfter As EventTimingEnum, Context As NameValueMap, ByRef HandlingCode As HandlingCodeEnum)
 
             If DocumentObject Is Nothing Then Exit Sub
-            If Not DocumentObject Is g_inventorApplication.ActiveDocument Then Exit Sub 'only trigger on the active file
+            If Not DocumentObject Is _inventorApplication.ActiveDocument Then Exit Sub 'only trigger on the active file
             If Not DocumentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then Exit Sub
 
             'run this after a document is open
@@ -212,18 +211,18 @@ Namespace InventorAddIn
             Dim AddinName = Reflection.Assembly.GetExecutingAssembly.GetName.Name.ToString
 
             ' Initialize add-in members.
-            g_inventorApplication = addInSiteObject.Application
+            _inventorApplication = addInSiteObject.Application
 
             ' Connect to events.
-            UiEvents = g_inventorApplication.UserInterfaceManager.UserInterfaceEvents
-            UserInputEvents = g_inventorApplication.CommandManager.UserInputEvents
-            InvTransactionEvents = g_inventorApplication.TransactionManager.TransactionEvents
-            InventorApplicationEvents = g_inventorApplication.ApplicationEvents
+            _userInterfaceEvents = _inventorApplication.UserInterfaceManager.UserInterfaceEvents
+            _userInputEvents = _inventorApplication.CommandManager.UserInputEvents
+            _transactionEvents = _inventorApplication.TransactionManager.TransactionEvents
+            _applicationEvents = _inventorApplication.ApplicationEvents
 
             ' Add event handlers.
-            AddHandler InventorApplicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
-            AddHandler InventorApplicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
-            AddHandler InventorApplicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
+            AddHandler _applicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
+            AddHandler _applicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
+            AddHandler _applicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
             'AddHandler UserInputEvents.OnLinearMarkingMenu, AddressOf Me.Events_OnLinearMarkingMenu
             'AddHandler UserInputEvents.OnRadialMarkingMenu, AddressOf Me.Events_OnRadialMarkingMenu
             'AddHandler InventorApplicationEvents.OnDocumentChange, AddressOf Me.Events_PartListCreateEvent
@@ -247,7 +246,7 @@ Namespace InventorAddIn
                     AddToUserInterface()
 
                     Message = "Adding " & AddinName & " To User Interface."
-                    g_inventorApplication.StatusBarText = Message
+                    _inventorApplication.StatusBarText = Message
                     System.Diagnostics.Debug.WriteLine("*******  " & Message)
                     '  MsgBox(Message)
                 Catch ex As Exception
@@ -257,7 +256,7 @@ Namespace InventorAddIn
 
             Else
                 'MsgBox(AddinName & " not the first time activated.")
-                g_inventorApplication.StatusBarText = AddinName & " not the first time activated."
+                _inventorApplication.StatusBarText = AddinName & " not the first time activated."
             End If
 #End Region
 
@@ -267,14 +266,14 @@ Namespace InventorAddIn
         ' unloaded either manually by the user or when the Inventor session is terminated.
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
 
-            g_inventorApplication = Nothing
-            UiEvents = Nothing
-            UserInputEvents = Nothing
-            InvTransactionEvents = Nothing
+            _inventorApplication = Nothing
+            _userInterfaceEvents = Nothing
+            _userInputEvents = Nothing
+            _transactionEvents = Nothing
 
-            RemoveHandler InventorApplicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
-            RemoveHandler InventorApplicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
-            RemoveHandler InventorApplicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
+            RemoveHandler _applicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
+            RemoveHandler _applicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
+            RemoveHandler _applicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
 
             System.GC.Collect()
             System.GC.WaitForPendingFinalizers()
@@ -296,7 +295,7 @@ Namespace InventorAddIn
             ' Not used.
         End Sub
 
-        Private Sub m_uiEvents_OnResetRibbonInterface(Context As NameValueMap) Handles UiEvents.OnResetRibbonInterface
+        Private Sub m_uiEvents_OnResetRibbonInterface(Context As NameValueMap) Handles _userInterfaceEvents.OnResetRibbonInterface
             ' The ribbon was reset, so add back the add-ins user-interface.
             AddToUserInterface()
         End Sub

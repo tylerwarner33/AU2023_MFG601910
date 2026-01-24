@@ -2,58 +2,58 @@
 
 Module CheckForExisting
 
-    Function GetButtonDef(InternalName As String) As ButtonDefinition
+    Function GetButtonDef(internalName As String) As ButtonDefinition
 
         ' Check if button exists
-        Dim ButtonDef As Inventor.ButtonDefinition = Nothing
+        Dim buttonDefinition As Inventor.ButtonDefinition = Nothing
         Try
-            ButtonDef = g_inventorApplication.CommandManager.ControlDefinitions.Item(InternalName)
+            buttonDefinition = _inventorApplication.CommandManager.ControlDefinitions.Item(internalName)
         Catch ex As Exception
         End Try
 
-        If Not ButtonDef Is Nothing Then
-            System.Diagnostics.Debug.WriteLine("*******  " & ButtonDef.InternalName & " button exists")
+        If Not buttonDefinition Is Nothing Then
+            System.Diagnostics.Debug.WriteLine("*******  " & buttonDefinition.InternalName & " button exists")
         End If
 
-        Return ButtonDef
+        Return buttonDefinition
 
     End Function
 
-    Function GetRibbonPanel(Custom_RibbonTab As RibbonTab, panelName As String) As RibbonPanel
+    Function GetRibbonPanel(customRibbonTab As RibbonTab, panelName As String) As RibbonPanel
 
-        Dim panel_ID As String = "id_" & Replace(panelName, " ", "_")
+        Dim panelId As String = "id_" & Replace(panelName, " ", "_")
 
         ' Check if panel exists
-        Dim ribbon_Panel As RibbonPanel = Nothing
+        Dim ribbonPanel As RibbonPanel = Nothing
         Try
-            ribbon_Panel = Custom_RibbonTab.RibbonPanels.Item(panel_ID)
+            ribbonPanel = customRibbonTab.RibbonPanels.Item(panelId)
         Catch ex As Exception
         End Try
 
-        If Not ribbon_Panel Is Nothing Then
-            System.Diagnostics.Debug.WriteLine("*******  " & ribbon_Panel.InternalName & " panel exists")
+        If Not ribbonPanel Is Nothing Then
+            System.Diagnostics.Debug.WriteLine("*******  " & ribbonPanel.InternalName & " panel exists")
         End If
 
-        Return ribbon_Panel
+        Return ribbonPanel
 
     End Function
 
-    Function GetRibbonTab(TabName As String, EnvironmentName As String) As RibbonTab
+    Function GetRibbonTab(tabName As String, environmentName As String) As RibbonTab
 
-        Dim internalName As String = "id_" & Replace(TabName, " ", "_")
+        Dim internalName As String = "id_" & Replace(tabName, " ", "_")
 
         ' Check if panel exists
-        Dim Ribbon_Tab As RibbonTab = Nothing
+        Dim ribbonTab As RibbonTab = Nothing
         Try
-            Ribbon_Tab = g_inventorApplication.UserInterfaceManager.Ribbons.Item(EnvironmentName).RibbonTabs.Item(internalName)
+            ribbonTab = _inventorApplication.UserInterfaceManager.Ribbons.Item(environmentName).RibbonTabs.Item(internalName)
         Catch ex As Exception
         End Try
 
-        If Not Ribbon_Tab Is Nothing Then
-            System.Diagnostics.Debug.WriteLine("*******  " & TabName & " tab exists")
+        If Not ribbonTab Is Nothing Then
+            System.Diagnostics.Debug.WriteLine("*******  " & tabName & " tab exists")
         End If
 
-        Return Ribbon_Tab
+        Return ribbonTab
 
     End Function
 

@@ -1,9 +1,10 @@
 ﻿Imports Inventor
 Imports System.Collections.Generic
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Windows.Forms
 
-Module ApplicationBalloonNotice
+Module InstallPath
 
     Function CreateButton(
         environment As String,
@@ -13,27 +14,27 @@ Module ApplicationBalloonNotice
         isInButtonStack As Boolean) As ButtonDefinition
 
         ' Get the images to use for the button.
-        Dim largeIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Mouse_32)
-        Dim standardIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Mouse_16)
+        Dim largeIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Horse_32)
+        Dim standardIcon As IPictureDisp = PictureDispConverter.ToIPictureDisp(My.Resources.Horse_16)
         Dim toolTipImage As IPictureDisp = Nothing
 
         ' This is the text the user sees on the button.
-        Dim buttonLabel As String = "Balloon" & vbLf & "Notice"
+        Dim buttonLabel As String = "Check" & vbLf & "Install Path"
 
         ' Text that displays when the user hovers over the button.
-        Dim toolTipSimple As String = "Runs an external ilogic rule to display a balloon notice"
+        Dim toolTipSimple As String = "Displays the install path"
         Dim toolTipExpanded As String = Nothing
 
 #Region "Progressive ToolTip"
 
         ' Set to true to use a progressive tool tip, and false to a simple tool tip.
-        Dim useProgressToolTip As Boolean = True
+        Dim useProgressToolTip As Boolean = False
 
         ' Only used if 'useProgressToolTip = true'.
         If useProgressToolTip = True Then
             toolTipImage = PictureDispConverter.ToIPictureDisp(My.Resources.AU_ToolTip)
 
-            toolTipExpanded = ChrW(&H2022) & " This tool pops up the application balloon with a message" & vbLf &
+            toolTipExpanded = ChrW(&H2022) & " Line1" & vbLf &
                 ChrW(&H2022) & " Line2" & vbLf &
                 ChrW(&H2022) & " Line3" & vbLf &
                 ChrW(&H2022) & " Line4"
@@ -59,9 +60,9 @@ Module ApplicationBalloonNotice
 
     End Function
 
-    'This is the code that does the real work when your command is executed.
-    Sub RunExternalRule()
-        RunExternaliLogicRule.RunExternalRule("ApplicationBalloonTip")
+    ' This is the code that does the real work when your command is executed.
+    Sub RunCommandCode()
+        MsgBox(_inventorApplication.InstallPath)
     End Sub
 
 End Module

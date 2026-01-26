@@ -1,7 +1,7 @@
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
 Imports Inventor
 Imports Microsoft.Win32
+Imports System.Collections.Generic
+Imports System.Runtime.InteropServices
 
 Public Module Globals
 
@@ -11,7 +11,6 @@ Public Module Globals
     ''' </summary>
     Public Const _simpleAddInClientId As String = "CLIENT_GUID_PLACEHOLDER"
     Public Const _addInClientId As String = "{" & _simpleAddInClientId & "}"
-
 
 End Module
 
@@ -117,7 +116,7 @@ Namespace InventorAddIn
                 ' Create new tab.
                 Dim customTab As RibbonTab = CreateRibbonTab.GetRibbon_Tab(newTabName, myRibbon, lastTab)
 
-                ' reate the tab and panels for each environment.
+                ' Create the tab and panels for each environment.
                 If i = 0 Then
                     customDrawingTab = customTab
                     drawingGeneralToolsPanel = CreateRibbonPanel.GetRibbonPanel(customPanelList.Item(0), customTab)
@@ -137,12 +136,12 @@ Namespace InventorAddIn
 
 #Region "Create Single Buttons"
 
-            'add this button to General Tools tab of 3 different environments 
+            ' Add this button to General Tools tab of 3 different environments.
             _apiHelpButton = ApiHelp.CreateButton("Drawing", customDrawingTab, drawingGeneralToolsPanel, True, False)
             _apiHelpButton = ApiHelp.CreateButton("Assembly", customAssemblyTab, assemblyGeneralToolsPanel, True, False)
             _apiHelpButton = ApiHelp.CreateButton("Part", customPartTab, partGeneralToolsPanel, True, False)
 
-            'add button to just one tab
+            ' Add button to just one tab.
             _detectInventorThemeButton = DetectInventorTheme.CreateButton("Drawing", customDrawingTab, drawingExternalRuleButtonsPanel, True, False)
 
             _saveLoggerButton = SaveLoggerText.CreateButton("Drawing", customDrawingTab, drawingExternalRuleButtonsPanel, True, False)
@@ -151,8 +150,9 @@ Namespace InventorAddIn
 #End Region
 
 #Region "Create a Pop Up Button Stack"
+
             ' Build a "cover" Button Definition.
-            ' This button has no events, therefore is not click-able,.
+            ' This button has no events, therefore is not click-able.
             ' It is not tied to any command or automation.
             ' It just serves as the "cover" button for this stack of buttons.
             Dim buttonCover As ButtonDefinition = CreateButtonDefintion.CreateButtonDef(
@@ -340,15 +340,14 @@ Namespace InventorAddIn
             ByRef handlingCode As HandlingCodeEnum)
 
             If documentObject Is Nothing Then Exit Sub
-            If Not documentObject Is _inventorApplication.ActiveDocument Then Exit Sub ' Only trigger on the active file.
+            If documentObject IsNot _inventorApplication.ActiveDocument Then Exit Sub ' Only trigger on the active file.
             If Not documentObject.DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then Exit Sub
 
             ' Run this after a document is open.
             If beforeOrAfter = EventTimingEnum.kAfter Then
                 ' Run a command that has no button.
                 ' Uncomment the following line to see the Welcome command module run on this event.
-                'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
-
+                'Welcome.AddinHello(documentObject.FullFileName, EventTimingEnum.kAfter.ToString)
             End If
 
         End Sub
@@ -363,7 +362,7 @@ Namespace InventorAddIn
                 If beforeOrAfter = EventTimingEnum.kBefore Then
                     ' Run a command that has no button.
                     ' Uncomment the following line to see the Welcome command module run on this event.
-                    'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                    'Welcome.AddinHello(documentObject.FullFileName, EventTimingEnum.kAfter.ToString)
                 End If
             End If
 
@@ -379,8 +378,6 @@ Namespace InventorAddIn
         ''' The FirstTime flag indicates if the AddIn is loaded for the first time.
         ''' However, with the introduction of the ribbon this argument is always true.
         ''' </summary>
-        ''' <param name="addInSiteObject"></param>
-        ''' <param name="firstTime"></param>
         Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite, ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
 
             Dim addinName = Reflection.Assembly.GetExecutingAssembly.GetName.Name.ToString
@@ -398,14 +395,14 @@ Namespace InventorAddIn
             AddHandler _applicationEvents.OnNewDocument, AddressOf Me.Events_OnNewDocument
             AddHandler _applicationEvents.OnOpenDocument, AddressOf Me.Events_OnOpenDocument
             AddHandler _applicationEvents.OnSaveDocument, AddressOf Me.Events_OnSaveDocument
-            'AddHandler UserInputEvents.OnLinearMarkingMenu, AddressOf Me.Events_OnLinearMarkingMenu
-            'AddHandler UserInputEvents.OnRadialMarkingMenu, AddressOf Me.Events_OnRadialMarkingMenu
-            'AddHandler InventorApplicationEvents.OnDocumentChange, AddressOf Me.Events_PartListCreateEvent
-            'AddHandler UserInputEvents.OnDrag, AddressOf Me.Events_OnDrag
-            'AddHandler InvTransactionEvents.OnCommit, AddressOf Me.Events_OnCommit
-            'AddHandler InvTransactionEvents.OnUndo, AddressOf Me.Events_OnUndo
-            'AddHandler InvTransactionEvents.OnRedo, AddressOf Me.Events_OnRedo
-            'AddHandler InvTransactionEvents.OnDelete, AddressOf Me.Events_OnDelete
+            'AddHandler _applicationEvents.OnDocumentChange, AddressOf Me.Events_PartListCreateEvent
+            'AddHandler _userInputEvents.OnLinearMarkingMenu, AddressOf Me.Events_OnLinearMarkingMenu
+            'AddHandler _userInputEvents.OnRadialMarkingMenu, AddressOf Me.Events_OnRadialMarkingMenu
+            'AddHandler _userInputEvents.OnDrag, AddressOf Me.Events_OnDrag
+            'AddHandler _transactionEvents.OnCommit, AddressOf Me.Events_OnCommit
+            'AddHandler _transactionEvents.OnUndo, AddressOf Me.Events_OnUndo
+            'AddHandler _transactionEvents.OnRedo, AddressOf Me.Events_OnRedo
+            'AddHandler _transactionEvents.OnDelete, AddressOf Me.Events_OnDelete
 
             ' Register external rules path with iLogic
             RegisterExternalRulesPathOnActivation()
@@ -430,7 +427,7 @@ Namespace InventorAddIn
                 End Try
 
             Else
-                'MsgBox(AddinName & " not the first time activated.")
+                'MsgBox(addinName & " not the first time activated.")
                 _inventorApplication.StatusBarText = addinName & " not the first time activated."
             End If
 

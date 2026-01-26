@@ -238,7 +238,7 @@ Namespace InventorAddIn
             'AddHandler _transactionEvents.OnRedo, AddressOf Me.Events_OnRedo
             'AddHandler _transactionEvents.OnDelete, AddressOf Me.Events_OnDelete
 
-            ' Register external rules path with iLogic
+            ' Register external rules path with iLogic.
             RegisterExternalRulesPathOnActivation()
 
 #Region "Activate user interface"

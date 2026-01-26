@@ -70,6 +70,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="README.md" />
+    <Content Include="External Rules\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -129,7 +132,7 @@
     <ItemGroup>
       <AddinBundle Include="$(TargetDir)**\*" Exclude="$(TargetDir)PackageContents.xml" />
     </ItemGroup>
-    <Copy SourceFiles="@(AddinBundle)" DestinationFolder="$(AppPluginOutputPath)\$(MSBuildProjectName).bundle\Contents\%(RecursiveDir)" />
+    <Copy SourceFiles="@(AddinBundle)" DestinationFolder="$(AddinOutputPath)\$(MSBuildProjectName).bundle\Contents\%(RecursiveDir)" />
   </Target>
 
 </Project>

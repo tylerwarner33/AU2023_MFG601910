@@ -22,7 +22,7 @@ Module CreateButtonDefintion
         toolTipImage As stdole.IPictureDisp) As ButtonDefinition
 
         Dim buttonNameNoSpaces = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
-        Dim internalName As String = buttonNameNoSpaces & "_" & g_addInClientID & "_Button_InternalName"
+        Dim internalName As String = buttonNameNoSpaces & "_" & _addInClientID & "_Button_InternalName"
         Dim description As String = buttonNameNoSpaces & " Button"
         Dim controlDefs As Inventor.ControlDefinitions = _inventorApplication.CommandManager.ControlDefinitions
 
@@ -32,7 +32,7 @@ Module CreateButtonDefintion
         Dim toolButtonDef As ButtonDefinition = CheckForExisting.GetButtonDef(internalName)
 
         If toolButtonDef Is Nothing Then
-            toolButtonDef = controlDefs.AddButtonDefinition(buttonLabel, internalName, CommandTypesEnum.kShapeEditCmdType, g_addInClientID)
+            toolButtonDef = controlDefs.AddButtonDefinition(buttonLabel, internalName, CommandTypesEnum.kShapeEditCmdType, _addInClientID)
             System.Diagnostics.Debug.WriteLine("*******  " & toolButtonDef.InternalName & " button created")
         End If
 
@@ -69,7 +69,7 @@ Module CreateButtonDefintion
         Dim internalName As String = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_") & "_" & addinName & "_Button_InternalName"
 
         Try
-            toolButtonDef = controlDefs.AddButtonDefinition(buttonLabel, internalName, CommandTypesEnum.kEditMaskCmdType, g_addInClientID,,, standardIcon)
+            toolButtonDef = controlDefs.AddButtonDefinition(buttonLabel, internalName, CommandTypesEnum.kEditMaskCmdType, _addInClientID,,, standardIcon)
         Catch
 
         End Try

@@ -11,7 +11,7 @@ Module CreateRibbonTab
         Dim internalName As String = "id_" & Replace(tabName, " ", "_")
 
         If ribbonTab Is Nothing Then
-            ribbonTab = myRibbon.RibbonTabs.Add(tabName, internalName, g_addInClientID, tabNextTo, False)
+            ribbonTab = myRibbon.RibbonTabs.Add(tabName, internalName, _addInClientID, tabNextTo, False)
             System.Diagnostics.Debug.WriteLine("*******  " & tabName & " tab created")
         End If
 

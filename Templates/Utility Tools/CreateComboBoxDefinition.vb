@@ -12,7 +12,7 @@ Module CreateComboBoxDefintion
         toolTipSimple As String) As ComboBoxDefinition
 
         Dim buttonNameNoSpaces = buttonLabel.Replace(System.Environment.NewLine, "_").Replace(vbLf, "_").Replace(vbCr, "_").Replace(" ", "_")
-        Dim internalName As String = buttonNameNoSpaces & "_" & g_addInClientID & "_Button_InternalName"
+        Dim internalName As String = buttonNameNoSpaces & "_" & _addInClientID & "_Button_InternalName"
         Dim description As String = buttonNameNoSpaces & "_Button"
         Dim controlDefs As Inventor.ControlDefinitions = _inventorApplication.CommandManager.ControlDefinitions
 
@@ -30,7 +30,7 @@ Module CreateComboBoxDefintion
             internalName,
             CommandTypesEnum.kEditMaskCmdType,
             dropDownWidth,
-            g_addInClientID)
+            _addInClientID)
 
         toolButtonDef.DescriptionText = description
         toolButtonDef.ToolTipText = toolTipSimple

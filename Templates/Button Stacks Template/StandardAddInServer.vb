@@ -183,7 +183,7 @@ Namespace InventorAddIn
                 buttonObjectCollection.Add(controlDefinition(i))
             Next
 
-            CreateStackedButtonDefinition.Create_PopUp_ButtonDef(
+            CreateStackedButtonDefinition.CreatePopUpButtonDefinition(
                 "Drawing",
                 customDrawingTab,
                 drawingGeneralToolsPanel,
@@ -211,7 +211,7 @@ Namespace InventorAddIn
                 buttonObjectCollection.Add(controlDefinition(i))
             Next
 
-            CreateStackedButtonDefinition.Create_Button_PopUp_ButtonDef(
+            CreateStackedButtonDefinition.CreateButtonPopUpButtonDefinition(
                 "Drawing",
                 customDrawingTab,
                 drawingGeneralToolsPanel,
@@ -238,7 +238,7 @@ Namespace InventorAddIn
                 buttonObjectCollection.Add(controlDefinition(i))
             Next
 
-            CreateStackedButtonDefinition.CreateSplit_MostRecentlyUsed_ButtonDef(
+            CreateStackedButtonDefinition.CreateSplitMostRecentlyUsedButtonDefinition(
                 "Drawing",
                 customDrawingTab,
                 drawingGeneralToolsPanel,
@@ -326,7 +326,7 @@ Namespace InventorAddIn
                 If beforeOrAfter = EventTimingEnum.kAfter Then
                     ' Run a command that has no button.
                     ' Uncomment the following line to see the Welcome command module run on this event.
-                    Welcome.Addin_Hello(documentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                    Welcome.AddinHello(documentObject.FullFileName, EventTimingEnum.kAfter.ToString)
                 End If
             End If
 
@@ -347,7 +347,7 @@ Namespace InventorAddIn
             If beforeOrAfter = EventTimingEnum.kAfter Then
                 ' Run a command that has no button.
                 ' Uncomment the following line to see the Welcome command module run on this event.
-                'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
 
             End If
 
@@ -363,7 +363,7 @@ Namespace InventorAddIn
                 If beforeOrAfter = EventTimingEnum.kBefore Then
                     ' Run a command that has no button.
                     ' Uncomment the following line to see the Welcome command module run on this event.
-                    'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                    'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
                 End If
             End If
 

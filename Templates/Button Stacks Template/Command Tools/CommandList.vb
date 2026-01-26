@@ -106,7 +106,7 @@ Module CommandList
 #If #NETFRAMEWORK Then
         Process.Start(fileName)
 #Else
-        Process.Start(New ProcessStartInfo(sPath) With {.UseShellExecute = True})
+        Process.Start(New ProcessStartInfo(fileName) With {.UseShellExecute = True})
 #End If
 
     End Sub

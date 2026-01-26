@@ -158,7 +158,7 @@ Namespace InventorAddIn
                 If BeforeOrAfter = EventTimingEnum.kAfter Then
                     'run a command that has no button
                     'uncomment the following line to see the Welcome command module run on this event
-                    'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                    'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
 
                 End If
             End If
@@ -176,7 +176,7 @@ Namespace InventorAddIn
             If BeforeOrAfter = EventTimingEnum.kAfter Then
                 'run a command that has no button
                 'uncomment the following line to see the Welcome command module run on this event
-                'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
 
             End If
 
@@ -190,7 +190,7 @@ Namespace InventorAddIn
                 If BeforeOrAfter = EventTimingEnum.kBefore Then
                     'run a command that has no button
                     'uncomment the following line to see the Welcome command module run on this event
-                    'Welcome.Addin_Hello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
+                    'Welcome.AddinHello(DocumentObject.FullFileName, EventTimingEnum.kAfter.ToString)
                 End If
             End If
 

@@ -1,8 +1,12 @@
 # Autodesk Inventor Addin Templates
 
 ![Inventor Versions](https://img.shields.io/badge/Inventor-2023--2026-blue.svg)
-[![.NET Versions](https://img.shields.io/badge/.NET-4.8--8.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+[![.NET Versions](https://img.shields.io/badge/.NET-4.8--8.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+[![Visual Studio Versions](https://img.shields.io/badge/Visual%20Studio-2022--2026-blue.svg)](https://github.com/tylerwarner33/autodesk-inventor-templates)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Build](https://github.com/tylerwarner33/autodesk-inventor-templates/actions/workflows/PublishRelease.yml/badge.svg)](https://github.com/tylerwarner33/autodesk-inventor-templates/actions)
+[![Release](https://img.shields.io/nuget/v/autodesk.inventor.templates?logo=nuget&label=Release&color=blue)](https://www.nuget.org/packages/Autodesk.Inventor.Templates)
+
 
 This repository is based on the templates created by Curtis Waguespack & provided in his Autodesk University 2023 class: 
 [Bridging the Gap Between iLogic Automation and Inventor Add-Ins](https://www.autodesk.com/autodesk-university/class/Bridging-the-Gap-Between-iLogic-Automation-and-Inventor-Add-Ins-2023).
@@ -36,16 +40,30 @@ dotnet new uninstall Autodesk.Inventor.Templates
 
 ### Command Line
 
-```bash
-# Create a new add-in with default settings (Inventor 2026)
-dotnet new inventoraddin -n MyInventorAddIn
-
-# Create with specific Inventor version
-dotnet new inventoraddin -n MyInventorAddIn --InventorVersion 2025
-
-# Create in a specific output directory
-dotnet new inventoraddin -n MyInventorAddIn -o ./src/MyInventorAddIn
-```
+- List all installed Inventor templates.
+  ``` bash
+  dotnet new list inventor
+  ```
+- Display all available options for the basic template.
+  ``` bash
+  dotnet new inventoraddin-basic --help
+  ```
+- Create a new add-in with the basic template and default settings (Inventor 2026).
+  ``` bash
+  dotnet new inventoraddin-basic --name YourAddInName
+  ```
+- Create a new add-in with the stacked buttons template and default settings (Inventor 2026).
+  ``` bash
+  dotnet new inventoraddin-stacked --name YourAddInName
+  ```
+- Create a new add-in with the basic template and specified Inventor version.
+  ``` bash
+  dotnet new inventoraddin-basic --name YourAddInName --InventorVersion 2025
+  ```
+- Create a new add-in with the basic template, specified Inventor version and output directory.
+  ``` bash
+  dotnet new inventoraddin-basic --name YourAddInName --InventorVersion 2025 --output C:\Projects\YourAddInName
+  ```
 
 ## Setup
 

@@ -8,12 +8,8 @@
 [![Release](https://img.shields.io/nuget/v/autodesk.inventor.templates?logo=nuget&label=Release&color=blue)](https://www.nuget.org/packages/Autodesk.Inventor.Templates)
 
 
-This repository is based on the templates created by Curtis Waguespack & provided in his Autodesk University 2023 class: 
+This is a collection of multi-version Visual Studio templates for creating Autodesk Inventor Add-Ins. Started from the templates created by Curtis Waguespack & provided in his Autodesk University 2023 class: 
 [Bridging the Gap Between iLogic Automation and Inventor Add-Ins](https://www.autodesk.com/autodesk-university/class/Bridging-the-Gap-Between-iLogic-Automation-and-Inventor-Add-Ins-2023).
-
-- The templates have been modernized to the `dotnet new` template format.
-- The projects have been modernized to the `SDK-style` project format.
-- The solution has been modernized to the `slnx` solution format.
 
 ## Install
 
